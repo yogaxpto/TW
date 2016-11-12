@@ -7,23 +7,28 @@ body {
     font-size: 14px;
 }
 
-
-.login{
+.login {
     display: block;
 }
 
-.mode{
+.mode {
     display: none;
 }
 
-.game{
+.game {
     display: none;
 }
 
-.highscores{
+.highscores {
     display: none;
 }
 
+.login_box {
+
+    text-align: center;
+    horiz-align: center;
+    vertical-align: center;
+}
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Open Sans', sans-serif;
@@ -77,9 +82,9 @@ section {
 ==================================================*/
 
 #home-sec {
-
+    horiz-align: center;
     padding-top: 75px;
-    color: #fff;
+    color: #000000;
 
 }
 
@@ -139,7 +144,6 @@ section {
    ============================================================*/
 .navbar {
     font-size: 18px;
-    background-image: url('../img/pixel_weave.png') !important;
 }
 
 .navbar-inverse {
