@@ -38,7 +38,7 @@
 <!--HOME SECTION-->
 
 <div id="home-sec">
-    <div class="login">
+    <div id="login">
         <div class="login_box">
             Username <br>
             <input id="username" type="text">
@@ -48,19 +48,27 @@
             <input id="password" type="password">
             <br>
             <br>
-            <button id="register" onclick="register()">Register</button> &nbsp
-            <button id="login" onclick="login()">Login</button>
+            <button id="register" onclick="register()">Register</button>
+            &nbsp
+            <button id="submit" onclick="login()">Login</button>
         </div>
     </div>
-    <div class="mode">
+    <div id="mode">
+        <form action="set_difficulty">
+            <input type="radio" name="difficulty" value="beginner">beginner<br>
+            <input type="radio" name="difficulty" value="intermediate">intermediate<br>
+            <input type="radio" name="difficulty" value="advanced">advanced<br>
+            <input type="radio" name="difficulty" value="expert">expert<br>
+            <input type="submit" value="Play Online" onclick="play()">
+            <input type="submit" value="Play Offline" onclick="alert( 'In development' )">
+        </form>
+    </div>
+
+    <div id="game">
 
     </div>
 
-    <div class="game">
-
-    </div>
-
-    <div class="highscores">
+    <div id="highscores">
     </div>
 </div>
 

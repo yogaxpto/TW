@@ -7,19 +7,19 @@ body {
     font-size: 14px;
 }
 
-.login {
+#login {
     display: block;
 }
 
-.mode {
+#mode {
     display: none;
 }
 
-.game {
+#game {
     display: none;
 }
 
-.highscores {
+#highscores {
     display: none;
 }
 
@@ -85,6 +85,7 @@ section {
     horiz-align: center;
     padding-top: 75px;
     color: #000000;
+    text-align: center;
 
 }
 
