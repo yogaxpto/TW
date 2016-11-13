@@ -17,6 +17,8 @@ body {
 
 #game {
     display: none;
+    text-align: center;
+    margin: auto;
 }
 
 #highscores {
@@ -76,6 +78,61 @@ section {
     color: #f00;
     padding: 5px;
 }
+
+#tabl {
+    text-align: center;
+    vertical-align: inherit;
+    align-content: center;
+    margin: auto;
+}
+
+.meio {
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+
+.ver:hover,.hor:hover{
+    background-color: darkred;
+}
+
+.ver[name="c"],.hor[name="c"]{
+    background-color: #2a6496 !important;
+}
+
+.ver[name="p"],.hor[name="p"]{
+    background-color: #2b542c !important;
+}
+#player:active{
+    background-color: #8a6d3b;
+}
+
+#tab_highscores{
+    text-align: center;
+    align-content: center;
+    top:20%;
+    left:35%;
+    width: 40%;
+    position: absolute;
+    margin-top:-50px;
+    margin-left:-35px;
+    border: 3px solid black;
+
+}
+#tab_highscores th{
+    text-align: center;
+    border:1px;
+}
+
+#tab_highscores caption{
+    font-weight: bold;
+
+}
+
+#tab_highscores tr td{
+    border:1px;
+}
+
 
 /*=======================================
     HOME SECTION STYLES

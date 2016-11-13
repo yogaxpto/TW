@@ -55,10 +55,10 @@
     </div>
     <div id="mode">
         <form action="set_difficulty">
-            <input type="radio" name="difficulty" value="beginner">beginner<br>
-            <input type="radio" name="difficulty" value="intermediate">intermediate<br>
-            <input type="radio" name="difficulty" value="advanced">advanced<br>
-            <input type="radio" name="difficulty" value="expert">expert<br>
+            <input type="radio" name="difficulty" id="beginner">beginner<br>
+            <input type="radio" name="difficulty" id="intermediate">intermediate<br>
+            <input type="radio" name="difficulty" id="advanced">advanced<br>
+            <input type="radio" name="difficulty" id="expert">expert<br>
             <button type="button" value="Play Online" onclick="alert( 'In development' )" disabled="disabled">Play Online</button>
             <button type="button" value="Play Offline"  onclick="play()">Play Offline</button>
         </form>
@@ -69,6 +69,36 @@
     </div>
 
     <div id="highscores">
+        <table id="tab_highscores">
+            <caption>HighScores</caption>
+            <thead>
+            <tr>
+                <th>Num</th>
+                <th>Score</th>
+                <th>Name</th>
+                <th>Duration</th>
+                <th>Mode</th>
+                <th>Result</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr> <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 

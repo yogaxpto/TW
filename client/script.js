@@ -1,12 +1,14 @@
 /**
  * Created by Diogo on 20/09/2016.
  */
+var table, ownedCells;
+
 function set_tab(tab) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('mode').style.display = 'none';
     document.getElementById('game').style.display = 'none';
     document.getElementById('highscores').style.display = 'none';
-    document.getElementById(tab).style.display = 'inline';
+    document.getElementById(tab).style.display = 'block';
     return;
 }
 
@@ -23,21 +25,22 @@ function login() {
     else {
         alert('Logged as ' + document.getElementById('username').value + '.');
         //TODO change navbar login name to username's and set something below to allow to logout
-        document.getElementById('nav_bar_login').innerHTML=document.getElementById('username').value;
-        document.getElementById('nav_bar_login').onclick=display_logout();
+        document.getElementById('nav_bar_login').innerHTML = document.getElementById('username').value;
         set_tab('mode');
+        document.getElementById('nav_bar_login').onclick = "";
+        document.getElementById('nav_bar_login').onclick = display_logout();
         return;
     }
 }
 
-function display_logout(){
-    if(confirm("Do you wish to logout?")){
+function display_logout() {
+    if (confirm("Do you wish to logout?")) {
         set_tab('login');
-        document.getElementById('nav_bar_login').innerHTML='Login'
-        document.getElementById('nav_bar_login').onclick=set_tab('login');
+        document.getElementById('nav_bar_login').innerHTML = 'Login'
+        document.getElementById('nav_bar_login').onclick = set_tab('login');
         return;
     }
-    else{
+    else {
         return;
     }
 }
@@ -48,16 +51,22 @@ function play() {
 }
 
 function getvalue() {
-    var diff = document.getElementById("difficulty");
 
-    if (diff == "beginner")
+    if (document.getElementById('beginner').checked) {
         set_table(2, 3);
-    else if (diff == "intermediate")
+        return;
+    }
+    else if (document.getElementById('intermediate').checked) {
         set_table(4, 5);
-    else if (diff == "advanced")
+        return;
+    }
+    else if (document.getElementById('advanced').checked) {
         set_table(6, 8);
+        return;
+    }
     else
         set_table(9, 11);
+    return;
 }
 
 
@@ -65,14 +74,17 @@ function set_table(nrow, ncell) {
     removertabela();
 
     var body = document.getElementById("game");
-
+    lastMove="";
     var tabela = document.createElement("table");
     var tabbody = document.createElement("tbody");
 
     tabela.setAttribute("id", "tabl");
+    table = new Array(nrow);
 
+    ownedCells = new Array(nrow-1);
 
     for (var i = 0; i < nrow * 2 + 1; i++) {
+        table[i] = new Array(ncell);
         var row = document.createElement("tr");
         for (var j = 0; j < ncell * 2 + 1; j++) {
             var cell = document.createElement("td");
@@ -128,13 +140,15 @@ function hmove(pos, user) {
     var f1 = false;
     var f2 = false;
 
+
+
     //if the user clicks on black square, do nothing
     if (row % 2 == 1 || col % 2 == 0)
         return;
     //if the move has already been made, do nothing
-    if (tabela[row][col] == 0)
+    if (table[row][col] == 0)
         return;
-    tabela[row][col] = 0;
+    table[row][col] = 0;
 
     if (lastMove != "") {
         var lastpos = last.split(",");
@@ -144,22 +158,25 @@ function hmove(pos, user) {
         if ((lastrow % 2 == 1 && lastcol == 0) || (lastrow % 2 == 0 && lastcol % 2 == 1)) {
             var a = document.getElementById(row + ',' + col);
             a.className = "played";
+            a.name = user;
         }
     }
     if (user == "p") {
         var a = document.getElementById(row + ',' + col);
         a.className = "played";
+        a.name = user;
     }
 
     else {
         var a = document.getElementById(row + ',' + col);
         a.className = "played";
+        a.name = user;
         last = pos;
     }
 
 
     //call checkSquare recursively to check if a square has been made.
-    if (eval(row + 1) < tabela.length)
+    if (eval(row + 1) < table.length)
         f1 = checkSquare(eval(row + 1) + "," + col, user);
 
     if (eval(row - 1 >= 0))
@@ -184,9 +201,9 @@ function vmove(pos, user) {
     if (row % 2 == 0 || col % 2 == 1)
         return;
 
-    if (tabela[row][col] == 0)
+    if (table[row][col] == 0)
         return;
-    tabela[row][col] = 0;
+    table[row][col] = 0;
 
     if (lastMove != "") {
         var lastpos = last.split(",");
@@ -198,21 +215,24 @@ function vmove(pos, user) {
         if ((row % 2 == 0 && col % 2 == 1) || (row % 2 == 1 && col % 2 == 0)) { //check if the move is on a playable cell (not on the square)
             var a = document.getElementById(row + ',' + col);
             a.className = "played";
+            a.name = user;
         }
     }
 
     if (user == "c") {
         var a = document.getElementById(row + ',' + col);
         a.className = "played";
+        a.name = user;
     }
 
     else {
         var a = document.getElementById(row + ',' + col);
         a.className = "played";
+        a.name = user;
         last = pos;
     }
 
-    if (eval(col + 1) < board[row].length)
+    if (eval(col + 1) < table[row].length)
         f1 = checkSquare(row + "," + eval(col + 1), user);
 
     if (eval(col - 1 >= 0))
@@ -229,8 +249,8 @@ function cpuMove() {
     if (checkEndGame() != false)
         return;
 
-    for (var i = 0; i < board.length; i++) {
-        for (var j = 0; j < board[i].length; j++) {
+    for (var i = 0; i < table.length; i++) {
+        for (var j = 0; j < table[i].length; j++) {
             if ((i % 2 == 1 && j % 2 == 0)) {
                 var a = document.getElementById(i + ',' + j);
                 if (a.className != "played") {
@@ -260,7 +280,7 @@ function checkSquare(pos, user) {
         return;
     }
     //check if neighbour cells are checked and fill the middle cell if they are.
-    if (!board[row - 1][col] && !board[row + 1][col] && !board[row][col - 1] && !board[row][col + 1]) {
+    if (!table[row - 1][col] && !table[row + 1][col] && !table[row][col - 1] && !table[row][col + 1]) {
         checked = true;
         var a = document.getElementById(row + ',' + col);
         if (user == "p") {
@@ -269,7 +289,6 @@ function checkSquare(pos, user) {
         }
         else {
             a.className = "filledCPU";
-            ownedCells[Math.floor(row / 2)][Math.floor(col / 2)] = "c";
         }
         checkEndGame();
     }
@@ -278,10 +297,10 @@ function checkSquare(pos, user) {
 
 function checkEndGame() {
     var v = new Array();
-    for (var i = 0; i < board.length; i++) {
-        for (var j = 0; j < board[i].length; j++) {
+    for (var i = 0; i < table.length; i++) {
+        for (var j = 0; j < table[i].length; j++) {
             if (i % 2 == 1 && j % 2 == 1) {
-                if (!board[i - 1][j] && !board[i + 1][j] && !board[i][j - 1] && !board[i][j + 1]) {
+                if (!table[i - 1][j] && !table[i + 1][j] && !table[i][j - 1] && !table[i][j + 1]) {
                     v[v.length] = i + ',' + j;
                 }
             }
