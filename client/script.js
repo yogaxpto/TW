@@ -23,15 +23,26 @@ function login() {
     else {
         alert('Logged as ' + document.getElementById('username').value + '.');
         //TODO change navbar login name to username's and set something below to allow to logout
+        document.getElementById('nav_bar_login').innerHTML=document.getElementById('username').value;
+        document.getElementById('nav_bar_login').onclick=display_logout();
         set_tab('mode');
         return;
     }
 }
 
+function display_logout(){
+    if(confirm("Do you wish to logout?")){
+        set_tab('login');
+        document.getElementById('nav_bar_login').innerHTML='Login'
+        document.getElementById('nav_bar_login').onclick=set_tab('login');
+        return;
+    }
+    else{
+        return;
+    }
+}
+
 function play() {
-    //TODO set tab (game)
-    //TODO create table with set difficulty
-    //TODO start the game with the bot only
     set_tab('game');
     getvalue();
 }
