@@ -96,15 +96,12 @@ section {
     background-color: darkred;
 }
 
-.ver[name="c"],.hor[name="c"]{
-    background-color: #2a6496 !important;
+.played{
+    background-color: #2b542c;
 }
 
-.ver[name="p"],.hor[name="p"]{
-    background-color: #2b542c !important;
-}
-#player:active{
-    background-color: #8a6d3b;
+.playedCPU{
+    background-color: #2a6496;
 }
 
 #tab_highscores{
