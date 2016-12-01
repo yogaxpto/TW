@@ -287,11 +287,11 @@ function checkSquare(pos, user) {
         checked = true;
         var a = document.getElementById(row + ',' + col);
         if (user == "p") {
-            a.className = "filledP";
+            a.className += " filledP";
             ownedCells[Math.floor(row / 2)][Math.floor(col / 2)] = "p";
         }
         else {
-            a.className = "filledCPU";
+            a.className += " filledCPU";
         }
         checkEndGame();
     }
