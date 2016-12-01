@@ -72,6 +72,10 @@ function getvalue() {
 
 function set_table(nrow, ncell) {
     removertabela();
+    table = new Array(nrow);
+
+    temp1=nrow;
+    temp2=ncell;
 
     var body = document.getElementById("game");
     lastMove="";
@@ -79,7 +83,6 @@ function set_table(nrow, ncell) {
     var tabbody = document.createElement("tbody");
 
     tabela.setAttribute("id", "tabl");
-    table = new Array(nrow);
 
     ownedCells = new Array(nrow-1);
 
@@ -169,7 +172,7 @@ function hmove(pos, user) {
 
     else {
         var a = document.getElementById(row + ',' + col);
-        a.className = "played";
+        a.className = "playedCPU";
         a.name = user;
         last = pos;
     }
@@ -221,7 +224,7 @@ function vmove(pos, user) {
 
     if (user == "c") {
         var a = document.getElementById(row + ',' + col);
-        a.className = "played";
+        a.className = "playedCPU";
         a.name = user;
     }
 
