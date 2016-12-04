@@ -103,7 +103,7 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     hmove(this.id, "player1");
-                } //para desenhar horizontal
+                } //horizontal
                 row.appendChild(cell);
             }
             else if (i % 2 == 1 && j % 2 == 0) {
@@ -214,8 +214,8 @@ function vmove(pos, user) {
         var lastcol = parseInt(lastpos[1]);
         //if horizontal or vertical cell
 
-
-        if ((row % 2 == 0 && col % 2 == 1) || (row % 2 == 1 && col % 2 == 0)) { //check if the move is on a playable cell (not on the square)
+        //check if the move is on a playable cell (not on the square)
+        if ((row % 2 == 0 && col % 2 == 1) || (row % 2 == 1 && col % 2 == 0)) {
             var a = document.getElementById(row + ',' + col);
             a.className = "played";
             a.name = user;
@@ -271,8 +271,8 @@ function cpuMove() {
             }
         }
     }
-
 }
+
 function checkSquare(pos, user) {
     var checked = false;
     var getpos = pos.split(",");
