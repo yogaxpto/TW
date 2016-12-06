@@ -1,5 +1,7 @@
 /**
- * Created by Diogo on 20/09/2016.
+ * Created by Diogo
+ * and Ana Sofia Cepeda Germano
+ * on 20/09/2016.
  */
 var table, ownedCells;
 
@@ -74,17 +76,17 @@ function set_table(nrow, ncell) {
     removertabela();
     table = new Array(nrow);
 
-    temp1=nrow;
-    temp2=ncell;
+    temp1 = nrow;
+    temp2 = ncell;
 
     var body = document.getElementById("game");
-    lastMove="";
+    lastMove = "";
     var tabela = document.createElement("table");
     var tabbody = document.createElement("tbody");
 
     tabela.setAttribute("id", "tabl");
 
-    ownedCells = new Array(nrow-1);
+    ownedCells = new Array(nrow - 1);
 
     for (var i = 0; i < nrow * 2 + 1; i++) {
         table[i] = new Array(ncell);
@@ -92,13 +94,26 @@ function set_table(nrow, ncell) {
         for (var j = 0; j < ncell * 2 + 1; j++) {
             var cell = document.createElement("td");
             if (i % 2 == 0 && j % 2 == 0) {
-                var circulo = document.createTextNode("\u25CD");
+                var circulo = document.createElement("canvas");
+                circulo.setAttribute("id", "cir_canvas");
+                var ctx = circulo.getContext("2d");
+                ctx.beginPath();
+                ctx.arc(35, 30, 30, 0, Math.PI * 2); // (hor,ver,length,0,arc)
+                ctx.fillStyle = "#000000";
+                ctx.fill();
+                ctx.stroke();
                 cell.appendChild(circulo);
                 cell.setAttribute("class", "cir");
                 cell.setAttribute("id", i + "," + j);
                 row.appendChild(cell);
             }
             else if (i % 2 == 0 && j % 2 == 1) {
+                var linha_hor = document.createElement("canvas");
+                linha_hor.setAttribute("id", "hor_canvas");
+                var ctx = linha_hor.getContext("2d");
+                ctx.moveTo(0, 10);
+                ctx.lineTo(1800, 0);
+                ctx.stroke();
                 cell.setAttribute("class", "hor");
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
@@ -107,6 +122,12 @@ function set_table(nrow, ncell) {
                 row.appendChild(cell);
             }
             else if (i % 2 == 1 && j % 2 == 0) {
+                var linha_ver = document.createElement("canvas");
+                linha_ver.setAttribute("id", "ver_canvas");
+                var ctx = linha_hor.getContext("2d");
+                ctx.moveTo(10, 0);
+                ctx.lineTo(0, 1800);
+                ctx.stroke();
                 cell.setAttribute("class", "ver");
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
@@ -142,7 +163,6 @@ function hmove(pos, user) {
     var col = parseInt(getpos[1]);   //split the id to get the row and col value
     var f1 = false;
     var f2 = false;
-
 
 
     //if the user clicks on black square, do nothing
@@ -337,6 +357,105 @@ function checkEndGame() {
         }
     }
     return false;
+}
+
+function highs() {
+    set_tab('highscores');
+    tab_highscores();
+}
+
+//função da tabela highscores
+function tab_highscores() {
+
+    var body = document.getElementById("highscores");
+    var tab = document.createElement("table"); //cria a tabela
+    var tab_thead = document.createElement("thead"); //1º linha com os campos
+    tab.setAttribute("class", "tab_highscores");
+    tab_thead.setAttribute("id", "tab_thead");
+
+    //cabeçalho da tabela
+    for (var i = 0; i < 1; i++) {
+        var linha = document.createElement("tr");
+        linha.setAttribute("id", "linha");
+        for (var j = 0; j < 6; j++) {
+            var coll = document.createElement("th");
+            if (j == 0) {
+                var num = document.createTextNode("Num");
+                coll.appendChild(num);
+                linha.appendChild(coll);
+            }
+            if (j == 1) {
+                var score = document.createTextNode("Score");
+                coll.appendChild(score);
+                linha.appendChild(coll);
+            }
+            if (j == 2) {
+                var name = document.createTextNode("Name");
+                coll.appendChild(name);
+                linha.appendChild(coll);
+            }
+            if (j == 3) {
+                var duration = document.createTextNode("Duration");
+                coll.appendChild(duration);
+                linha.appendChild(coll);
+            }
+            if (j == 4) {
+                var mode = document.createTextNode("Mode");
+                coll.appendChild(mode);
+                linha.appendChild(coll);
+            }
+            if (j == 5) {
+                var result = document.createTextNode("Result");
+                coll.appendChild(result);
+                linha.appendChild(coll);
+            }
+        }
+        tab_thead.appendChild(linha);
+    }
+    tab.appendChild(tab_thead);
+    var tab_body = document.createElement("tbody");
+
+    //corpo da tabela
+    for (var i = 0; i < 10; i++) {
+        var linha = document.createElement("tr");
+        for (var j = 0; j < 6; j++) {
+            var coll = document.createElement("td");
+            if (j == 0) {
+                var num = document.createTextNode("Num");
+                coll.appendChild(num);
+                linha.appendChild(coll);
+            }
+            if (j == 1) {
+                var score = document.createTextNode("Score");
+                coll.appendChild(score);
+                linha.appendChild(coll);
+            }
+            if (j == 2) {
+                var name = document.createTextNode("Name");
+                coll.appendChild(name);
+                linha.appendChild(coll);
+            }
+            if (j == 3) {
+                var duration = document.createTextNode("Duration");
+                coll.appendChild(duration);
+                linha.appendChild(coll);
+            }
+            if (j == 4) {
+                var mode = document.createTextNode("Mode");
+                coll.appendChild(mode);
+                linha.appendChild(coll);
+            }
+            if (j == 5) {
+                var result = document.createTextNode("Result");
+                coll.appendChild(result);
+                linha.appendChild(coll);
+            }
+        }
+        tab_body.appendChild(linha);
+    }
+    tab.appendChild(tab_body);
+    body.appendChild(tab);
+    console.log(tbody)
 }
 
 

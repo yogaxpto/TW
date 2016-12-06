@@ -13,7 +13,9 @@ function register(name,pass) {
     con.open("GET", "twserver.alunos.dcc.fc.up.pt:8000", true, name, pass);
 }
 
+/*
 function login(name,pass){}
+*/
 
 function join(group, name, pass, level) {}
 

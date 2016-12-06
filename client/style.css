@@ -96,6 +96,24 @@ section {
     background-color: darkred;
 }
 
+#ver_canvas{
+    width:	2mm;
+    height:	2cm;
+    margin:	auto;
+}
+#hor_canvas{
+    width:	2cm;
+    height:	2mm;
+}
+
+#cir_canvas{
+    width:	5mm;
+    height:	5mm;
+    background: black;
+    border-radius: 2.5mm;
+}
+
+
 .played{
     background-color: #2b542c;
 }
@@ -116,20 +134,18 @@ section {
     border: 3px solid black;
 
 }
-#tab_highscores th{
+
+#tab_thead{
     text-align: center;
+    align-content: center;
+    font-size: 25px;
     border:1px;
 }
 
-#tab_highscores caption{
-    font-weight: bold;
 
-}
-
-#tab_highscores tr td{
+#linha{
     border:1px;
 }
-
 
 /*=======================================
     HOME SECTION STYLES
