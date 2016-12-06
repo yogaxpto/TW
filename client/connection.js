@@ -14,32 +14,60 @@ var json;
 var response;
 var key;
 var game;
-var data='';
-var opponent='';
-var turn='';
-var col=0;
-var row=0;
+var data = '';
+var opponent = '';
+var turn = '';
+var col = 0;
+var row = 0;
 var hit;
-var multigameinprogress=0;
+var multigameinprogress = 0;
 
 
-function register(name,pass) {
+function register(name, pass) {
     /**
      * Return true or false whether the user is successfully registered.
      */
-    con.open("GET", "twserver.alunos.dcc.fc.up.pt:8000", true, name, pass);
+    data = {'name': name, 'pass': pass};
+
+    // construct an HTTP request
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url + 'register', true);
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+    // send the collected data as JSON
+    xhr.send(JSON.stringify(data));
+
+    xhr.onloadend = function () {
+        response = JSON.parse(xhr.responseText);
+
+        if (response.error == undefined) {
+            return true;
+        }
+        else {
+            alert('Erro: ' + response.error);
+            return false;
+        }
+    };
+
 }
 
 
-function login(name,pass){}
+function login(name, pass) {
+
+}
 
 
-function join(group, name, pass, level) {}
+function join(group, name, pass, level) {
+}
 
-function leave(name, key, game) {}
+function leave(name, key, game) {
+}
 
-function notify(name, key, game, orient, row, col){}
+function notify(name, key, game, orient, row, col) {
+}
 
-function update(name, key, game){}
+function update(name, key, game) {
+}
 
-function ranking(level){}
+function ranking(level) {
+}

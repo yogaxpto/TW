@@ -47,7 +47,7 @@ function validate_login() {
             //TODO change navbar validate_login name to username's and set something below to allow to logout
             document.getElementById('nav_bar_login').innerHTML = document.getElementById('username').value;
             set_tab('mode');
-            document.getElementById('nav_bar_login').onclick = "";
+            document.getElementById('nav_bar_login').onclick = Null;
             document.getElementById('nav_bar_login').onclick = display_logout();
             return;
         }
