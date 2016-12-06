@@ -44,11 +44,12 @@ function validate_login() {
     }
     else {
         if (login(document.getElementById('username').value, document.getElementById('password').value)) {
-            //TODO change navbar validate_login name to username's and set something below to allow to logout
+
             document.getElementById('nav_bar_login').innerHTML = document.getElementById('username').value;
-            set_tab('mode');
-            document.getElementById('nav_bar_login').onclick = Null;
+            document.getElementById('nav_bar_login').onclick = null;
             document.getElementById('nav_bar_login').onclick = display_logout();
+
+            set_tab('mode');
             return;
         }
     }
@@ -56,9 +57,9 @@ function validate_login() {
 
 function display_logout() {
     if (confirm("Do you wish to logout?")) {
-        set_tab('validate_login');
+        set_tab('login');
         document.getElementById('nav_bar_login').innerHTML = 'Login'
-        document.getElementById('nav_bar_login').onclick = set_tab('validate_login');
+        document.getElementById('nav_bar_login').onclick = set_tab('login');
         return;
     }
     else {
