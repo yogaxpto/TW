@@ -14,32 +14,51 @@ function set_tab(tab) {
     return;
 }
 
-function register() {
-    //for now, do as the login() function
-    login();
+function validate(value) {
+    /*
+     returns true if there are no special characters.
+     */
+
+    var iChars = "~`!#$%^&*+=-[]\\\';,/{}|\":<>?";
+
+    for (var i = 0; i <= value.length; i++) {
+        if (iChars.indexOf(value.charAt(i)) != -1)
+            return false;
+    }
+    return true;
 }
 
-function login() {
-    if (document.getElementById('username').value === "" || document.getElementById('password') == "") {
+function validate_register() {
+    //for now, do as the validate_login() function
+    if (validate(document.getElementById('username').value) && validate(document.getElementById('password').value))
+        register();
+    else {
+
+    }
+}
+
+function validate_login() {
+    if (!validate(document.getElementById('username').value) || !validate(document.getElementById('password').value)) {
         alert("Wrong credentials.\nTry again.");
         return;
     }
     else {
-        alert('Logged as ' + document.getElementById('username').value + '.');
-        //TODO change navbar login name to username's and set something below to allow to logout
-        document.getElementById('nav_bar_login').innerHTML = document.getElementById('username').value;
-        set_tab('mode');
-        document.getElementById('nav_bar_login').onclick = "";
-        document.getElementById('nav_bar_login').onclick = display_logout();
-        return;
+        if (login(document.getElementById('username').value, document.getElementById('password').value)) {
+            //TODO change navbar validate_login name to username's and set something below to allow to logout
+            document.getElementById('nav_bar_login').innerHTML = document.getElementById('username').value;
+            set_tab('mode');
+            document.getElementById('nav_bar_login').onclick = "";
+            document.getElementById('nav_bar_login').onclick = display_logout();
+            return;
+        }
     }
 }
 
 function display_logout() {
     if (confirm("Do you wish to logout?")) {
-        set_tab('login');
+        set_tab('validate_login');
         document.getElementById('nav_bar_login').innerHTML = 'Login'
-        document.getElementById('nav_bar_login').onclick = set_tab('login');
+        document.getElementById('nav_bar_login').onclick = set_tab('validate_login');
         return;
     }
     else {

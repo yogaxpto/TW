@@ -6,16 +6,33 @@
  * for more info
  */
 
-var con= new XMLHttpRequest();
+var username;
+var password;
+var request = new XMLHttpRequest();
+var url = 'http://twserver.alunos.dcc.fc.up.pt:8000/';
+var json;
+var response;
+var key;
+var game;
+var data='';
+var opponent='';
+var turn='';
+var col=0;
+var row=0;
+var hit;
+var multigameinprogress=0;
 
 
 function register(name,pass) {
+    /**
+     * Return true or false whether the user is successfully registered.
+     */
     con.open("GET", "twserver.alunos.dcc.fc.up.pt:8000", true, name, pass);
 }
 
-/*
+
 function login(name,pass){}
-*/
+
 
 function join(group, name, pass, level) {}
 
