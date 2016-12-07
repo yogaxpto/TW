@@ -11,7 +11,7 @@ function set_tab(tab) {
     document.getElementById('game').style.display = 'none';
     document.getElementById('highscores').style.display = 'none';
     document.getElementById(tab).style.display = 'block';
-    return;
+
 }
 
 function validate(value) {
@@ -31,26 +31,26 @@ function validate(value) {
 function validate_register() {
     //for now, do as the validate_login() function
     if (validate(document.getElementById('username').value) && validate(document.getElementById('password').value))
-        register();
+        validate_login();
     else {
-
+        alert("Username or password contain an invalid character.\nPlease try again.");
     }
 }
 
 function validate_login() {
     if (!validate(document.getElementById('username').value) || !validate(document.getElementById('password').value)) {
         alert("Wrong credentials.\nTry again.");
-        return;
+
     }
     else {
-        if (login(document.getElementById('username').value, document.getElementById('password').value)) {
+        if (register(document.getElementById('username').value, document.getElementById('password').value)) {
 
             document.getElementById('nav_bar_login').innerHTML = document.getElementById('username').value;
             document.getElementById('nav_bar_login').onclick = null;
             document.getElementById('nav_bar_login').onclick = display_logout();
 
             set_tab('mode');
-            return;
+
         }
     }
 }
@@ -58,12 +58,12 @@ function validate_login() {
 function display_logout() {
     if (confirm("Do you wish to logout?")) {
         set_tab('login');
-        document.getElementById('nav_bar_login').innerHTML = 'Login'
+        document.getElementById('nav_bar_login').innerHTML = 'Login';;;;;;;;;;;;;;;;;;;;;
         document.getElementById('nav_bar_login').onclick = set_tab('login');
-        return;
+
     }
     else {
-        return;
+
     }
 }
 
@@ -88,7 +88,7 @@ function getvalue() {
     }
     else
         set_table(9, 11);
-    return;
+
 }
 
 
@@ -138,7 +138,7 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     hmove(this.id, "player1");
-                } //horizontal
+                };;;;;;;;;;;;;;;;;;;;; //horizontal
                 row.appendChild(cell);
             }
             else if (i % 2 == 1 && j % 2 == 0) {
@@ -152,7 +152,7 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     vmove(this.id, "player1");
-                } //vertical;
+                };;;;;;;;;;;;;;;;;;;;; //vertical;
                 row.appendChild(cell);
             }
             else {
@@ -339,7 +339,7 @@ function checkSquare(pos, user) {
 }
 
 function checkEndGame() {
-    var v = new Array();
+    var v = [];
     for (var i = 0; i < table.length; i++) {
         for (var j = 0; j < table[i].length; j++) {
             if (i % 2 == 1 && j % 2 == 1) {
