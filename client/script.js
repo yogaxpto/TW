@@ -3,7 +3,9 @@
  * and Ana Sofia Cepeda Germano
  * on 20/09/2016.
  */
-var table, ownedCells;
+var table;
+var ownedCells;
+
 
 function set_tab(tab) {
     document.getElementById('login').style.display = 'none';
@@ -58,7 +60,7 @@ function validate_login() {
 function display_logout() {
     if (confirm("Do you wish to logout?")) {
         set_tab('login');
-        document.getElementById('nav_bar_login').innerHTML = 'Login';;;;;;;;;;;;;;;;;;;;;
+        document.getElementById('nav_bar_login').innerHTML = 'Login';
         document.getElementById('nav_bar_login').onclick = set_tab('login');
 
     }
@@ -70,6 +72,20 @@ function display_logout() {
 function play() {
     set_tab('game');
     getvalue();
+}
+
+function multiplayer_play(){
+    var difficulty;
+    if (document.getElementById('beginner').checked)
+        difficulty='beginner';
+    else if (document.getElementById('intermediate').checked)
+        difficulty='intermediate';
+    else if (document.getElementById('advanced').checked)
+        difficulty='advanced'
+    else
+        difficulty='expert'
+    join(58,document.getElementById('username'),document.getElementById('password'),difficulty)
+    set_tab('game')
 }
 
 function getvalue() {
@@ -138,7 +154,7 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     hmove(this.id, "player1");
-                };;;;;;;;;;;;;;;;;;;;; //horizontal
+                }; //horizontal
                 row.appendChild(cell);
             }
             else if (i % 2 == 1 && j % 2 == 0) {
@@ -152,7 +168,7 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     vmove(this.id, "player1");
-                };;;;;;;;;;;;;;;;;;;;; //vertical;
+                }; //vertical;
                 row.appendChild(cell);
             }
             else {
