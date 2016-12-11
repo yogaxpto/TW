@@ -21,11 +21,11 @@ body {
     margin: auto;
 }
 
-#square_opponent{
+.filledCPU{
     background: #285e8e;
 }
 
-#square_player{
+.filledP{
     background: #9900FF;
 }
 

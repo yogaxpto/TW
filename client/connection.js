@@ -135,7 +135,7 @@ function leave() {
 
         if (response.error == undefined) {
             gameinprogress = 0;
-            gameover('C');
+            gameover(response.winner);
         }
         else alert('Erro: ' + response.error);
 
