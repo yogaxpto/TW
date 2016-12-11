@@ -11,7 +11,7 @@ function set_tab(tab) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('mode').style.display = 'none';
     document.getElementById('game').style.display = 'none';
-    document.getElementById('wait').style.display='none';
+    document.getElementById('wait').style.display = 'none';
     document.getElementById('highscores').style.display = 'none';
     document.getElementById(tab).style.display = 'block';
 
@@ -49,7 +49,7 @@ function validate_login() {
     }
 }
 
-function register_sucess(){
+function register_sucess() {
     document.getElementById('nav_bar_login').innerHTML = name;
     document.getElementById('nav_bar_login').onclick = null;
     document.getElementById('nav_bar_login').onclick = new Function("display_logout()");
@@ -83,7 +83,7 @@ function multiplayer_play() {
         difficulty = 'advanced'
     else
         difficulty = 'expert'
-    level=difficulty;
+    level = difficulty;
     join();
 }
 function wait_for_next_player() {
@@ -111,8 +111,8 @@ function getvalue() {
 
 function get_cords(position) {
     var getpos = position.split(",");
-     row = parseInt(getpos[0]);
-     col = parseInt(getpos[1]);
+    row = parseInt(getpos[0]);
+    col = parseInt(getpos[1]);
 }
 
 function set_table(nrow, ncell) {
@@ -393,7 +393,11 @@ function highs() {
     tab_highscores();
 }
 
-function MultiGame(turn){
+function MultiGame(turn) {
+
+}
+
+function gameover(){
 
 }
 //função da tabela highscores

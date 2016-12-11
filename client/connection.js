@@ -198,14 +198,6 @@ function ranking() {
             var ranks = response.ranking;
             //TODO next line
             criar_highscore();
-
-            $('#high tr:eq(0) td:eq(0)').html('Jogador');
-            $('#high tr:eq(0) td:eq(1)').html('Pontuacao');
-
-            for (z = 1; z < 11; z++) {
-                $('#high tr:eq(' + z + ') td:eq(0)').html(response.ranking[z - 1].name);
-                $('#high tr:eq(' + z + ') td:eq(1)').html(response.ranking[z - 1].shots);
-            }
         }
         else alert('Erro: ' + response.error);
     };
