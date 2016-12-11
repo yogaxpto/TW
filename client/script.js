@@ -504,7 +504,7 @@ function tab_highscores() {
     }
     tab.appendChild(tab_body);
     body.appendChild(tab);
-    console.log(tbody)
+    //console.log(tbody)
 }
 
 
