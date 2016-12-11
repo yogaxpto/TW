@@ -182,6 +182,8 @@ function notify() {
 
 
 function ranking() {
+    data={"level":level};
+
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url + 'ranking', true);
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -194,7 +196,7 @@ function ranking() {
 
         if (response.error == undefined) {
             var ranks = response.ranking;
-            //TODO next line
+
             criar_highscore();
         }
         else alert('Erro: ' + response.error);
