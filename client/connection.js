@@ -101,31 +101,15 @@ function update() {
 
         }
         if (json.move != undefined) {
-            col = json.move.col;
-            row = json.move.row;
 
-            if (json.turn != username) {
-                pshotsTaken++;
-                shootit('u', json.move.hit);
-            }
-            else if (json.turn == username) {
-                oshotsTaken++;
-                shootit('o', json.move.hit);
-            }
-
-            setTimeout(function () {
-                //TODO next line
-                MultiGame(json.turn);
-            }, 1200);
 
         }
 
 
         if (json.winner != undefined) {
             alert("O jogador " + json.winner + " ganhou o jogo!! Parabens!")
-            ranking(); //actualiza
-            $('#single').fadeOut(200);
-            gameover;
+            //actualiza
+            gameover(json.winner);
         }
 
 

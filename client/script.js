@@ -420,8 +420,8 @@ function MultiGame(turn) {
     }
 }
 
-function gameover(turn) {
-    alert("Player " + turn + " won!");
+function gameover(winner) {
+    alert("Player " + winner + " won!");
     highs();
 }
 //função da tabela highscores
@@ -434,6 +434,7 @@ function tab_highscores() {
     var body = document.getElementById("highscores");
     var tab = document.createElement("table"); //cria a tabela
     var tab_thead = document.createElement("thead"); //1º linha com os campos
+
     tab.setAttribute("class", "tab_highscores");
     tab.setAttribute("id","highscore_table");
     tab_thead.setAttribute("id", "tab_thead");
