@@ -21,7 +21,7 @@ var opponent = '';
 var turn = '';
 var col = 0;
 var row = 0;
-var multigameinprogress = 0;
+var gameinprogress = 0;
 var ranking_data;
 
 
@@ -91,7 +91,7 @@ function update() {
         }
 
         if (json.opponent) {
-            multigameinprogress = 1;
+            gameinprogress = 1;
             set_tab('game');
             opponent = json.opponent;
             turn = json.turn;
@@ -107,6 +107,7 @@ function update() {
 
 
         if (json.winner != undefined) {
+            gameinprogress=0;
             alert("O jogador " + json.winner + " ganhou o jogo!! Parabens!")
             //actualiza
             gameover(json.winner);
@@ -133,7 +134,7 @@ function leave() {
         response = JSON.parse(xhr.responseText);
 
         if (response.error == undefined) {
-            multigameinprogress = 0;
+            gameinprogress = 0;
             gameover('C');
         }
         else alert('Erro: ' + response.error);
@@ -143,7 +144,7 @@ function leave() {
 
 function notify() {
     data = {'name': name, 'game': game, 'key': key, 'row': row, 'col': col};
-    $('#player_table_container td').unbind('mouseover mouseout click');
+
     // construct an HTTP request
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url + 'notify', true);
@@ -160,8 +161,6 @@ function notify() {
         else {
             alert('Erro: ' + response.error);
         }
-
-
     };
 }
 

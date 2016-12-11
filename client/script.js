@@ -166,7 +166,7 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     get_cords(this.id);
-                    if (multigameinprogress == 0)
+                    if (gameinprogress == 0)
                         hmove(this.id, "player1");
                     else
                         multiplayer_play();
@@ -178,7 +178,7 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     get_cords(this.id);
-                    if (multigameinprogress == 0)
+                    if (gameinprogress == 0)
                         vmove(this.id, "player1");
                     else
                         multiplayer_play();
@@ -405,6 +405,11 @@ function checkEndGame() {
 }
 
 function highs() {
+    if(gameinprogress==1){
+        document.getElementById("play_again").style.display="none";
+    }
+    else
+        document.getElementById("play_again").style.display="block";
     set_tab('highscores');
     tab_highscores();
 }

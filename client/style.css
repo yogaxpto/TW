@@ -28,6 +28,7 @@ body {
 
 #highscores {
     display: none;
+    text-align: center;
 }
 #pontos_player{
     display: inline-block;
@@ -135,6 +136,18 @@ section {
 
 .playedCPU{
     background-color: #2a6496;
+}
+
+#play_again{
+    display: inline-block;
+    vertical-align: bottom;
+    padding: 20px;
+}
+
+#highscore_table{
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 #tab_highscores{

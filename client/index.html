@@ -59,22 +59,26 @@
             <input type="radio" name="difficulty" id="intermediate">intermediate<br>
             <input type="radio" name="difficulty" id="advanced">advanced<br>
             <input type="radio" name="difficulty" id="expert">expert<br>
-            <button type="button" value="Play Online" onclick="alert( 'In development' )" disabled="disabled">Play Online</button>
-            <button type="button" value="Play Offline"  onclick="play()">Play Offline</button>
+            <button type="button" value="Play Online" onclick="alert( 'In development' )" disabled="disabled">Play
+                Online
+            </button>
+            <button type="button" value="Play Offline" onclick="play()">Play Offline</button>
         </form>
     </div>
 
     <div id="game">
 
-        <div id="pontos_player"> <p>You: 0</p></div>
-        <div id="pontos_player_CPU"> <p>PC: 0</p></div>
+        <div id="pontos_player"><p>You: 0</p></div>
+        <div id="pontos_player_CPU"><p>PC: 0</p></div>
         <div id="restart">
-            <button type="button" value="Restart"  onclick="leave()">Leave</button>
+            <button type="button" onclick="leave()">Forfeit</button>
         </div>
     </div>
 
     <div id="highscores">
-
+        <div id="play_again">
+            <button type="button" onclick="set_tab('mode')">Play again</button>
+        </div>
     </div>
 
     <div id="wait">
