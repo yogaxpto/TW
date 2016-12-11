@@ -98,6 +98,7 @@ function multiplayer_play() {
 }
 function wait_for_next_player() {
     set_tab('wait');
+    update();
 }
 
 function getvalue() {

@@ -157,6 +157,7 @@ function notify() {
         response = JSON.parse(xhr.responseText);
 
         if (response.error == undefined) {
+        update_game();
         }
         else {
             alert('Erro: ' + response.error);
