@@ -410,8 +410,9 @@ else{
 }
 }
 
-function gameover(){
-
+function gameover(turn){
+    alert("Player "+turn+" won!");
+    highs();
 }
 //função da tabela highscores
 function tab_highscores() {
