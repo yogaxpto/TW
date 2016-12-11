@@ -11,6 +11,7 @@ function set_tab(tab) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('mode').style.display = 'none';
     document.getElementById('game').style.display = 'none';
+    document.getElementById('wait').style.display='none';
     document.getElementById('highscores').style.display = 'none';
     document.getElementById(tab).style.display = 'block';
 
@@ -21,12 +22,10 @@ function validate(value) {
      returns true if there are no special characters.
      */
 
-    var iChars = "~`!#$%^&*+=-[]\\\';,/{}|\":<>?";
+    var format = /^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
 
-    for (var i = 0; i <= value.length; i++) {
-        if (iChars.indexOf(value.charAt(i)) != -1)
-            return false;
-    }
+    if (format.test(value))
+        return false;
     return true;
 }
 
@@ -40,21 +39,21 @@ function validate_register() {
 }
 
 function validate_login() {
-    if (!validate(document.getElementById('username').value) || !validate(document.getElementById('password').value)) {
-        alert("Wrong credentials.\nTry again.");
-
+    if (validate(document.getElementById('username').value) && validate(document.getElementById('password').value)) {
+        name = document.getElementById('username').value;
+        pass = document.getElementById('password').value;
+        register();
     }
     else {
-        if (register(document.getElementById('username').value, document.getElementById('password').value)) {
-
-            document.getElementById('nav_bar_login').innerHTML = document.getElementById('username').value;
-            document.getElementById('nav_bar_login').onclick = null;
-            document.getElementById('nav_bar_login').onclick = display_logout();
-
-            set_tab('mode');
-
-        }
+        alert("Wrong credentials.\nTry again.");
     }
+}
+
+function register_sucess(){
+    document.getElementById('nav_bar_login').innerHTML = name;
+    document.getElementById('nav_bar_login').onclick = null;
+    document.getElementById('nav_bar_login').onclick = new Function("display_logout()");
+    set_tab('mode');
 }
 
 function display_logout() {
@@ -65,7 +64,7 @@ function display_logout() {
 
     }
     else {
-
+        return;
     }
 }
 
@@ -74,18 +73,21 @@ function play() {
     getvalue();
 }
 
-function multiplayer_play(){
+function multiplayer_play() {
     var difficulty;
     if (document.getElementById('beginner').checked)
-        difficulty='beginner';
+        difficulty = 'beginner';
     else if (document.getElementById('intermediate').checked)
-        difficulty='intermediate';
+        difficulty = 'intermediate';
     else if (document.getElementById('advanced').checked)
-        difficulty='advanced'
+        difficulty = 'advanced'
     else
-        difficulty='expert'
-    join(58,document.getElementById('username'),document.getElementById('password'),difficulty)
-    set_tab('game')
+        difficulty = 'expert'
+    level=difficulty;
+    join();
+}
+function wait_for_next_player() {
+    set_tab('wait');
 }
 
 function getvalue() {
@@ -107,8 +109,14 @@ function getvalue() {
 
 }
 
+function get_cords(position) {
+    var getpos = position.split(",");
+     row = parseInt(getpos[0]);
+     col = parseInt(getpos[1]);
+}
 
 function set_table(nrow, ncell) {
+
     removertabela();
     table = new Array(nrow);
 
@@ -144,29 +152,19 @@ function set_table(nrow, ncell) {
                 row.appendChild(cell);
             }
             else if (i % 2 == 0 && j % 2 == 1) {
-                var linha_hor = document.createElement("canvas");
-                linha_hor.setAttribute("id", "hor_canvas");
-                var ctx = linha_hor.getContext("2d");
-                ctx.moveTo(0, 10);
-                ctx.lineTo(1800, 0);
-                ctx.stroke();
                 cell.setAttribute("class", "hor");
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
+                    get_cords(this.id);
                     hmove(this.id, "player1");
                 }; //horizontal
                 row.appendChild(cell);
             }
             else if (i % 2 == 1 && j % 2 == 0) {
-                var linha_ver = document.createElement("canvas");
-                linha_ver.setAttribute("id", "ver_canvas");
-                var ctx = linha_hor.getContext("2d");
-                ctx.moveTo(10, 0);
-                ctx.lineTo(0, 1800);
-                ctx.stroke();
                 cell.setAttribute("class", "ver");
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
+                    get_cords(this.id);
                     vmove(this.id, "player1");
                 }; //vertical;
                 row.appendChild(cell);
@@ -181,7 +179,6 @@ function set_table(nrow, ncell) {
     }
     tabela.appendChild(tabbody);
     body.appendChild(tabela);
-
 }
 
 // apaga a tabela caso exista uma
@@ -225,14 +222,12 @@ function hmove(pos, user) {
         a.className = "played";
         a.name = user;
     }
-
     else {
         var a = document.getElementById(row + ',' + col);
         a.className = "playedCPU";
         a.name = user;
         last = pos;
     }
-
 
     //call checkSquare recursively to check if a square has been made.
     if (eval(row + 1) < table.length)
@@ -248,7 +243,6 @@ function hmove(pos, user) {
 }
 
 function vmove(pos, user) {
-
     //Move on vertical cell
     //Similar to hmove
     var getpos = pos.split(",");
@@ -301,7 +295,6 @@ function vmove(pos, user) {
         cpuMove();
     else
         checkEndGame();
-
 }
 
 function cpuMove() {
@@ -400,6 +393,9 @@ function highs() {
     tab_highscores();
 }
 
+function MultiGame(turn){
+
+}
 //função da tabela highscores
 function tab_highscores() {
 

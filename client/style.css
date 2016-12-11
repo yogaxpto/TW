@@ -21,6 +21,11 @@ body {
     margin: auto;
 }
 
+#wait{
+    display:none;
+    text-align: center;
+}
+
 #highscores {
     display: none;
 }

@@ -21,7 +21,6 @@ var opponent = '';
 var turn = '';
 var col = 0;
 var row = 0;
-var hit;
 var multigameinprogress = 0;
 
 
@@ -44,11 +43,13 @@ function register() {
         response = JSON.parse(xhr.responseText);
 
         if (response.error == undefined) {
-            return true;
+            console.log("returning 1");
+            register_sucess();
+            return 1;
         }
         else {
             alert('Erro: ' + response.error);
-            return false;
+            return 0;
         }
     };
 
@@ -72,12 +73,67 @@ function join() {
         if (response.error == undefined) {
             key = response.key;
             game = response.game;
-            //TODO next line
-            joined();
+            wait_for_next_player();
         }
         else alert('Erro: ' + response.error);
     };
 }
+
+function update() {
+    var source = new EventSource(url + 'update?name=' + name + '&game=' + game + '&key=' + key);
+
+    source.onmessage = function response(event) {
+        var json = JSON.parse(event.data);
+
+        if (json.error != null) {
+            event.target.close();
+        }
+
+        if (json.opponent) {
+            multigameinprogress = 1;
+            set_tab('game');
+            opponent = json.opponent;
+            turn = json.turn;
+
+            updateTable("P");
+            updateTable("C");
+            alert('Opponent: ' + opponent + ' Turn: ' + turn);
+            MultiGame(turn);
+
+        }
+        if (json.move != undefined) {
+            col = json.move.col;
+            row = json.move.row;
+
+            if (json.turn != username) {
+                pshotsTaken++;
+                shootit('u', json.move.hit);
+            }
+            else if (json.turn == username) {
+                oshotsTaken++;
+                shootit('o', json.move.hit);
+            }
+
+            setTimeout(function () {
+                //TODO next line
+                MultiGame(json.turn);
+            }, 1200);
+
+        }
+
+
+        if (json.winner != undefined) {
+            alert("O jogador " + json.winner + " ganhou o jogo!! Parabens!")
+            ranking(); //actualiza
+            $('#single').fadeOut(200);
+            gameover;
+        }
+
+
+    };
+
+}
+
 
 function leave() {
     data = {'name': name, 'key': key, 'game': game};
@@ -126,66 +182,6 @@ function notify() {
     };
 }
 
-function update() {
-    var source = new EventSource(url + 'update?name=' + username + '&game=' + game + '&key=' + key);
-
-    source.onmessage = function response(event) {
-        var json = JSON.parse(event.data);
-
-        if (json.error != null) {
-            event.target.close();
-        }
-
-        if (json.opponent) {
-            multigameinprogress = 1;
-            opponent = json.opponent;
-            turn = json.turn;
-            $('#waiting').fadeOut('300');
-            $('#who').fadeIn('200');
-            setTimeout(function () {
-                $('#score').fadeIn(300);
-            }, 400);
-
-            $('#score').html('SCORE<br>' + username + ': ' + pshotsTaken + '<br><progress max="17" value=' + phits + '></progress><br>' + opponent + ': ' + oshotsTaken + '<br><progress max="17" value=' + mhits + '></progress>');
-
-
-            updateTable("P");
-            updateTable("C");
-            alert('Opponent: ' + opponent + ' Turn: ' + turn);
-            MultiGame(turn);
-
-        }
-        if (json.move != undefined) {
-            col = json.move.col;
-            row = json.move.row;
-
-            if (json.turn != username) {
-                pshotsTaken++;
-                shootit('u', json.move.hit);
-            }
-            else if (json.turn == username) {
-                oshotsTaken++;
-                shootit('o', json.move.hit);
-            }
-
-            setTimeout(function () {
-                MultiGame(json.turn);
-            }, 1200);
-
-        }
-
-
-        if (json.winner != undefined) {
-            alert("O jogador " + json.winner + " ganhou o jogo!! Parabens!")
-            ranking(); //actualiza
-            $('#single').fadeOut(200);
-            gameover;
-        }
-
-
-    };
-
-}
 
 function ranking() {
     var xhr = new XMLHttpRequest();
@@ -200,7 +196,7 @@ function ranking() {
 
         if (response.error == undefined) {
             var ranks = response.ranking;
-
+            //TODO next line
             criar_highscore();
 
             $('#high tr:eq(0) td:eq(0)').html('Jogador');
