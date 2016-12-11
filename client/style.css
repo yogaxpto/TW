@@ -110,24 +110,38 @@ section {
     margin: auto;
 }
 
-.meio {
-    width: 40px;
-    height: 40px;
-    display: block;
-}
-
 .ver:hover,.hor:hover{
     background-color: darkred;
 }
 
+.meio {
+    width: 1.5cm;
+    height: 1.5cm;
+    display: block;
+}
+
 #ver_canvas{
     width:	2mm;
-    height:	2cm;
-    margin:	auto;
+    height:	1.5cm;
+    background-color: #2b542c;
 }
+
+#ver_canvas_CPU{
+    width:	2mm;
+    height:	1.5cm;
+    background-color: #2a6496;
+}
+
 #hor_canvas{
-    width:	2cm;
+    width:	1.5cm;
     height:	2mm;
+    background-color: #2b542c;
+}
+
+#hor_canvas_CPU{
+    width:	1.5cm;
+    height:	2mm;
+    background-color: #2a6496;
 }
 
 #cir_canvas{
@@ -138,13 +152,6 @@ section {
 }
 
 
-.played{
-    background-color: #2b542c;
-}
-
-.playedCPU{
-    background-color: #2a6496;
-}
 
 #play_again{
     display: inline-block;

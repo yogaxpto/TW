@@ -232,18 +232,48 @@ function hmove(pos, user) {
             var a = document.getElementById(row + ',' + col);
             a.className = "played";
             a.name = user;
+            var linha_hor = document.createElement("canvas");
+            linha_hor.setAttribute("id", "hor_canvas");
+            var ctx = linha_hor.getContext("2d");
+            ctx.beginPath();
+            ctx.moveTo(0, 0); //onde começa
+            ctx.lineTo(0, 1800); //angulo
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#2b542c';
+            ctx.stroke();
+            a.appendChild(linha_hor);
         }
     }
     if (user == "player1") {
         var a = document.getElementById(row + ',' + col);
         a.className = "played";
         a.name = user;
+        var linha_hor = document.createElement("canvas");
+        linha_hor.setAttribute("id", "hor_canvas");
+        var ctx = linha_hor.getContext("2d");
+        ctx.beginPath();
+        ctx.moveTo(0, 0); //onde começa
+        ctx.lineTo(0, 1800); //angulo
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#2b542c';
+        ctx.stroke();
+        a.appendChild(linha_hor);
     }
     else {
         var a = document.getElementById(row + ',' + col);
         a.className = "playedCPU";
         a.name = user;
         last = pos;
+        var linha_hor = document.createElement("canvas");
+        linha_hor.setAttribute("id", "hor_canvas");
+        var ctx = linha_hor.getContext("2d");
+        ctx.beginPath();
+        ctx.moveTo(0, 0); //onde começa
+        ctx.lineTo(0, 1800); //angulo
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#2a6496';
+        ctx.stroke();
+        a.appendChild(linha_hor);
     }
 
     //call checkSquare recursively to check if a square has been made.
@@ -286,6 +316,16 @@ function vmove(pos, user) {
             var a = document.getElementById(row + ',' + col);
             a.className = "played";
             a.name = user;
+            var linha_ver = document.createElement("canvas");
+            linha_ver.setAttribute("id", "ver_canvas");
+            var ctx = linha_ver.getContext("2d");
+            ctx.beginPath();
+            ctx.moveTo(0, 0); //onde começa
+            ctx.lineTo(1800, 0); //angulo
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#2b542c';
+            ctx.stroke();
+            a.appendChild(linha_ver);
         }
     }
 
@@ -293,6 +333,16 @@ function vmove(pos, user) {
         var a = document.getElementById(row + ',' + col);
         a.className = "playedCPU";
         a.name = user;
+        var linha_ver = document.createElement("canvas");
+        linha_ver.setAttribute("id", "ver_canvas");
+        var ctx = linha_ver.getContext("2d");
+        ctx.beginPath();
+        ctx.moveTo(0, 0); //onde começa
+        ctx.lineTo(1800, 0); //angulo
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#2a6496';
+        ctx.stroke();
+        a.appendChild(linha_ver);
     }
 
     else {
@@ -300,6 +350,16 @@ function vmove(pos, user) {
         a.className = "played";
         a.name = user;
         last = pos;
+        var linha_ver = document.createElement("canvas");
+        linha_ver.setAttribute("id", "ver_canvas");
+        var ctx = linha_ver.getContext("2d");
+        ctx.beginPath();
+        ctx.moveTo(0, 0); //onde começa
+        ctx.lineTo(0, 1800); //angulo
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#2b542c';
+        ctx.stroke();
+        a.appendChild(linha_ver);
     }
 
     if (eval(col + 1) < table[row].length)
@@ -406,11 +466,11 @@ function checkEndGame() {
 }
 
 function highs() {
-    if(gameinprogress==1){
-        document.getElementById("play_again").style.display="none";
+    if (gameinprogress == 1) {
+        document.getElementById("play_again").style.display = "none";
     }
     else
-        document.getElementById("play_again").style.display="block";
+        document.getElementById("play_again").style.display = "block";
     set_tab('highscores');
     tab_highscores();
 }
@@ -434,15 +494,15 @@ function gameover(winner) {
 function tab_highscores() {
 
 
-     ranking();
-     removertabela("highscore_table");
+    ranking();
+    removertabela("highscore_table");
 
     var body = document.getElementById("highscores");
     var tab = document.createElement("table"); //cria a tabela
     var tab_thead = document.createElement("thead"); //1º linha com os campos
 
     tab.setAttribute("class", "tab_highscores");
-    tab.setAttribute("id","highscore_table");
+    tab.setAttribute("id", "highscore_table");
     tab_thead.setAttribute("id", "tab_thead");
     //cabeçalho da tabela
     for (var i = 0; i < 1; i++) {
