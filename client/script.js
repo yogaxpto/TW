@@ -69,6 +69,16 @@ function display_logout() {
 }
 
 function play() {
+    var difficulty;
+    if (document.getElementById('beginner').checked)
+        difficulty = 'beginner';
+    else if (document.getElementById('intermediate').checked)
+        difficulty = 'intermediate';
+    else if (document.getElementById('advanced').checked)
+        difficulty = 'advanced'
+    else
+        difficulty = 'expert'
+    level = difficulty;
     set_tab('game');
     getvalue();
 }
@@ -117,7 +127,7 @@ function get_cords(position) {
 
 function set_table(nrow, ncell) {
 
-    removertabela();
+    removertabela("tabl");
     table = new Array(nrow);
 
     temp1 = nrow;
@@ -156,8 +166,8 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     get_cords(this.id);
-                    if(multigameinprogress==0)
-                    hmove(this.id, "player1");
+                    if (multigameinprogress == 0)
+                        hmove(this.id, "player1");
                     else
                         multiplayer_play();
                 }; //horizontal
@@ -168,8 +178,8 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     get_cords(this.id);
-                    if(multigameinprogress==0)
-                    vmove(this.id, "player1");
+                    if (multigameinprogress == 0)
+                        vmove(this.id, "player1");
                     else
                         multiplayer_play();
                 }; //vertical;
@@ -188,8 +198,8 @@ function set_table(nrow, ncell) {
 }
 
 // apaga a tabela caso exista uma
-function removertabela() {
-    var rm = document.getElementById("tabl");
+function removertabela(x) {
+    var rm = document.getElementById(x);
     if (rm)
         rm.parentNode.removeChild(rm);
 }
@@ -400,34 +410,38 @@ function highs() {
 }
 
 function MultiGame(turn) {
-if (turn!=name){
-    //oponent's turn
-    lock_table();
-}
-else{
-    //client's turn
-    unlock_table();
-}
+    if (turn != name) {
+        //oponent's turn
+        lock_table();
+    }
+    else {
+        //client's turn
+        unlock_table();
+    }
 }
 
-function gameover(turn){
-    alert("Player "+turn+" won!");
+function gameover(turn) {
+    alert("Player " + turn + " won!");
     highs();
 }
 //função da tabela highscores
 function tab_highscores() {
 
+
+     ranking();
+     removertabela("highscore_table");
+
     var body = document.getElementById("highscores");
     var tab = document.createElement("table"); //cria a tabela
     var tab_thead = document.createElement("thead"); //1º linha com os campos
     tab.setAttribute("class", "tab_highscores");
+    tab.setAttribute("id","highscore_table");
     tab_thead.setAttribute("id", "tab_thead");
-
     //cabeçalho da tabela
     for (var i = 0; i < 1; i++) {
         var linha = document.createElement("tr");
         linha.setAttribute("id", "linha");
-        for (var j = 0; j < 6; j++) {
+        for (var j = 0; j < 5; j++) {
             var coll = document.createElement("th");
             if (j == 0) {
                 var num = document.createTextNode("Num");
@@ -435,28 +449,23 @@ function tab_highscores() {
                 linha.appendChild(coll);
             }
             if (j == 1) {
-                var score = document.createTextNode("Score");
+                var score = document.createTextNode("Name");
                 coll.appendChild(score);
                 linha.appendChild(coll);
             }
             if (j == 2) {
-                var name = document.createTextNode("Name");
+                var name = document.createTextNode("Boxes");
                 coll.appendChild(name);
                 linha.appendChild(coll);
             }
             if (j == 3) {
-                var duration = document.createTextNode("Duration");
+                var duration = document.createTextNode("Time");
                 coll.appendChild(duration);
                 linha.appendChild(coll);
             }
             if (j == 4) {
                 var mode = document.createTextNode("Mode");
                 coll.appendChild(mode);
-                linha.appendChild(coll);
-            }
-            if (j == 5) {
-                var result = document.createTextNode("Result");
-                coll.appendChild(result);
                 linha.appendChild(coll);
             }
         }
@@ -468,36 +477,31 @@ function tab_highscores() {
     //corpo da tabela
     for (var i = 0; i < 10; i++) {
         var linha = document.createElement("tr");
-        for (var j = 0; j < 6; j++) {
+        for (var j = 0; j < 5; j++) {
             var coll = document.createElement("td");
             if (j == 0) {
-                var num = document.createTextNode("Num");
+                var num = document.createTextNode(i + 1);
                 coll.appendChild(num);
                 linha.appendChild(coll);
             }
             if (j == 1) {
-                var score = document.createTextNode("Score");
+                var score = document.createTextNode(ranking_data[i].name);
                 coll.appendChild(score);
                 linha.appendChild(coll);
             }
             if (j == 2) {
-                var name = document.createTextNode("Name");
+                var name = document.createTextNode(ranking_data[i].boxes);
                 coll.appendChild(name);
                 linha.appendChild(coll);
             }
             if (j == 3) {
-                var duration = document.createTextNode("Duration");
+                var duration = document.createTextNode(ranking_data[i].time);
                 coll.appendChild(duration);
                 linha.appendChild(coll);
             }
             if (j == 4) {
-                var mode = document.createTextNode("Mode");
+                var mode = document.createTextNode(level);
                 coll.appendChild(mode);
-                linha.appendChild(coll);
-            }
-            if (j == 5) {
-                var result = document.createTextNode("Result");
-                coll.appendChild(result);
                 linha.appendChild(coll);
             }
         }

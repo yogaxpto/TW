@@ -22,6 +22,7 @@ var turn = '';
 var col = 0;
 var row = 0;
 var multigameinprogress = 0;
+var ranking_data;
 
 
 function register() {
@@ -182,7 +183,10 @@ function notify() {
 
 
 function ranking() {
-    data={"level":level};
+    if (level == undefined)
+        level = "beginner";
+
+    data={'level':level};
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', url + 'ranking', true);
@@ -195,9 +199,7 @@ function ranking() {
         response = JSON.parse(xhr.responseText);
 
         if (response.error == undefined) {
-            var ranks = response.ranking;
-
-            criar_highscore();
+            ranking_data = response.ranking;
         }
         else alert('Erro: ' + response.error);
     };
