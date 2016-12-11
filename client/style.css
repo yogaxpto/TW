@@ -29,6 +29,16 @@ body {
 #highscores {
     display: none;
 }
+#pontos_player{
+    display: inline-block;
+}
+
+#pontos_player_CPU{
+    display: inline-block;
+}
+#restart{
+    display: inline-block;
+}
 
 .login_box {
 
