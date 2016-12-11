@@ -156,7 +156,10 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     get_cords(this.id);
+                    if(multigameinprogress==0)
                     hmove(this.id, "player1");
+                    else
+                        multiplayer_play();
                 }; //horizontal
                 row.appendChild(cell);
             }
@@ -165,7 +168,10 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
                     get_cords(this.id);
+                    if(multigameinprogress==0)
                     vmove(this.id, "player1");
+                    else
+                        multiplayer_play();
                 }; //vertical;
                 row.appendChild(cell);
             }
@@ -394,7 +400,14 @@ function highs() {
 }
 
 function MultiGame(turn) {
-
+if (turn!=name){
+    //oponent's turn
+    lock_table();
+}
+else{
+    //client's turn
+    unlock_table();
+}
 }
 
 function gameover(){

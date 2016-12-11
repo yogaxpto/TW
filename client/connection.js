@@ -95,8 +95,6 @@ function update() {
             opponent = json.opponent;
             turn = json.turn;
 
-            updateTable("P");
-            updateTable("C");
             alert('Opponent: ' + opponent + ' Turn: ' + turn);
             MultiGame(turn);
 
