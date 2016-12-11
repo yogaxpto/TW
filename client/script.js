@@ -233,7 +233,7 @@ function hmove(pos, user) {
             a.name = user;
         }
     }
-    if (user == "p") {
+    if (user == "player1") {
         var a = document.getElementById(row + ',' + col);
         a.className = "played";
         a.name = user;
@@ -352,11 +352,11 @@ function checkSquare(pos, user) {
         checked = true;
         var a = document.getElementById(row + ',' + col);
         if (user == "p") {
-            a.className += " filledP";
+            a.className = "meio filledP";
             ownedCells[Math.floor(row / 2)][Math.floor(col / 2)] = "p";
         }
         else {
-            a.className += " filledCPU";
+            a.className = "meio filledCPU";
         }
         checkEndGame();
     }

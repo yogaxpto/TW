@@ -21,6 +21,14 @@ body {
     margin: auto;
 }
 
+#square_opponent{
+    background: #285e8e;
+}
+
+#square_player{
+    background: #9900FF;
+}
+
 #wait{
     display:none;
     text-align: center;
