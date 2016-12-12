@@ -4,3 +4,13 @@
  * For more info, visit:
  * http://www.dcc.fc.up.pt/~rprior/1617/TW/trabalho/Trabalho-3.html
  */
+
+var http = require('http');
+// inclusão de módulo
+var server = http.createServer(
+    function (request, response) {
+        response.writeHead(200, {'Content-Type': 'text / plain'});
+        response.end('Hello World!');
+    }
+);
+server.listen(8000);
