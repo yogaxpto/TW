@@ -126,29 +126,33 @@ function get_cords(position) {
     col = parseInt(getpos[1]);
 }
 
+
 function set_table(nrow, ncell) {
 
     removertabela("tabl");
     table = new Array(nrow);
+    ownedCells = new Array(nrow - 1);
 
     temp1 = nrow;
     temp2 = ncell;
+    lastMove = "";
 
     var body = document.getElementById("game");
-    lastMove = "";
     var tabela = document.createElement("table");
+    tabela.setAttribute("id", "tabl");
     var tabbody = document.createElement("tbody");
 
-    tabela.setAttribute("id", "tabl");
-
-    ownedCells = new Array(nrow - 1);
 
     for (var i = 0; i < nrow * 2 + 1; i++) {
         table[i] = new Array(ncell);
+        if(i%2==1)
+            ownedCells[Math.floor(i/2)] = new Array(ncell-1);
         var row = document.createElement("tr");
         for (var j = 0; j < ncell * 2 + 1; j++) {
             var cell = document.createElement("td");
-            if (i % 2 == 0 && j % 2 == 0) {
+            table[i][j]=1;
+            if (i % 2 == 0 && j % 2 == 0) { //criar os circulos
+                //cria o canvas
                 var circulo = document.createElement("canvas");
                 circulo.setAttribute("id", "cir_canvas");
                 var ctx = circulo.getContext("2d");
@@ -166,24 +170,24 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("class", "hor");
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
-                    get_cords(this.id);
-                    if (gameinprogress == 0)
-                        hmove(this.id, "player1");
-                    else
-                        multiplayer_play();
-                }; //horizontal
+                    //get_cords(this.id);
+                    // if (gameinprogress == 0)
+                    hmove(this.id, "p");
+                    // else
+                    //   multiplayer_play();
+                } //horizontal
                 row.appendChild(cell);
             }
             else if (i % 2 == 1 && j % 2 == 0) {
                 cell.setAttribute("class", "ver");
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
-                    get_cords(this.id);
-                    if (gameinprogress == 0)
-                        vmove(this.id, "player1");
-                    else
-                        multiplayer_play();
-                }; //vertical;
+                    //  get_cords(this.id);
+                    //    if (gameinprogress == 0)
+                    vmove(this.id, "p");
+                    //else
+                    //    multiplayer_play();
+                } //vertical;
                 row.appendChild(cell);
             }
             else {
@@ -230,8 +234,7 @@ function hmove(pos, user) {
         //if horizontal or vertical cell
         if ((lastrow % 2 == 1 && lastcol == 0) || (lastrow % 2 == 0 && lastcol % 2 == 1)) {
             var a = document.getElementById(row + ',' + col);
-            a.className = "played";
-            a.name = user;
+            a.className = "played_hor";
             var linha_hor = document.createElement("canvas");
             linha_hor.setAttribute("id", "hor_canvas");
             var ctx = linha_hor.getContext("2d");
@@ -244,10 +247,9 @@ function hmove(pos, user) {
             a.appendChild(linha_hor);
         }
     }
-    if (user == "player1") {
+    if (user == "p") {
         var a = document.getElementById(row + ',' + col);
-        a.className = "played";
-        a.name = user;
+        a.className = "played_hor";
         var linha_hor = document.createElement("canvas");
         linha_hor.setAttribute("id", "hor_canvas");
         var ctx = linha_hor.getContext("2d");
@@ -261,8 +263,7 @@ function hmove(pos, user) {
     }
     else {
         var a = document.getElementById(row + ',' + col);
-        a.className = "playedCPU";
-        a.name = user;
+        a.className = "played_hor";
         last = pos;
         var linha_hor = document.createElement("canvas");
         linha_hor.setAttribute("id", "hor_canvas");
@@ -314,8 +315,7 @@ function vmove(pos, user) {
         //check if the move is on a playable cell (not on the square)
         if ((row % 2 == 0 && col % 2 == 1) || (row % 2 == 1 && col % 2 == 0)) {
             var a = document.getElementById(row + ',' + col);
-            a.className = "played";
-            a.name = user;
+            a.className = "played_ver";
             var linha_ver = document.createElement("canvas");
             linha_ver.setAttribute("id", "ver_canvas");
             var ctx = linha_ver.getContext("2d");
@@ -331,8 +331,7 @@ function vmove(pos, user) {
 
     if (user == "c") {
         var a = document.getElementById(row + ',' + col);
-        a.className = "playedCPU";
-        a.name = user;
+        a.className = "played_ver";
         var linha_ver = document.createElement("canvas");
         linha_ver.setAttribute("id", "ver_canvas");
         var ctx = linha_ver.getContext("2d");
@@ -347,8 +346,7 @@ function vmove(pos, user) {
 
     else {
         var a = document.getElementById(row + ',' + col);
-        a.className = "played";
-        a.name = user;
+        a.className = "played_ver";
         last = pos;
         var linha_ver = document.createElement("canvas");
         linha_ver.setAttribute("id", "ver_canvas");
@@ -382,7 +380,7 @@ function cpuMove() {
         for (var j = 0; j < table[i].length; j++) {
             if ((i % 2 == 1 && j % 2 == 0)) {
                 var a = document.getElementById(i + ',' + j);
-                if (a.className != "played") {
+                if (a.className != "played_ver") {
                     vmove(i + ',' + j, "c");
                     return;
                 }
@@ -390,7 +388,7 @@ function cpuMove() {
 
             else if (i % 2 == 0 && j % 2 == 1) {
                 var a = document.getElementById(i + ',' + j);
-                if (a.className != "played") {
+                if (a.className != "played_hor") {
                     hmove(i + ',' + j, "c");
                     return;
                 }
@@ -413,11 +411,12 @@ function checkSquare(pos, user) {
         checked = true;
         var a = document.getElementById(row + ',' + col);
         if (user == "p") {
-            a.className = "meio filledP";
+            a.className = "filledP";
             ownedCells[Math.floor(row / 2)][Math.floor(col / 2)] = "p";
         }
         else {
-            a.className = "meio filledCPU";
+            a.className = "filledCPU";
+            ownedCells[Math.floor(row/2)][Math.floor(col/2)]="c";
         }
         checkEndGame();
     }
@@ -425,40 +424,48 @@ function checkSquare(pos, user) {
 }
 
 function checkEndGame() {
-    var v = [];
-    for (var i = 0; i < table.length; i++) {
-        for (var j = 0; j < table[i].length; j++) {
-            if (i % 2 == 1 && j % 2 == 1) {
-                if (!table[i - 1][j] && !table[i + 1][j] && !table[i][j - 1] && !table[i][j + 1]) {
+    var v = new Array();
+
+    for (var i=0;i<table.length;i++) {
+        for (var j=0;j<table[i].length;j++) {
+            if (i%2 == 1 && j%2 == 1) {
+                if (!table[i-1][j] && !table[i+1][j] && !table[i][j-1] && !table[i][j+1]) {
                     v[v.length] = i + ',' + j;
                 }
             }
         }
     }
 
-    if (v.length == (temp1) * (temp2)) {
-        var player_score = 0;
-        var cpu_score = 0;
-        for (var i = 0; i < ownedCells.length; i++) {
-            for (var j = 0; j < ownedCells[i].length; j++) {
-                if (ownedCells[i][j] == "p")
-                    player_score++;
-                else
-                    cpu_score++;
-            }
+    var player_score=0;
+    var cpu_score=0;
+    for (var i=0;i<ownedCells.length;i++) {
+        for (var j=0;j<ownedCells[i].length;j++) {
+            if (ownedCells[i][j] == "p")
+                player_score++;
+            else if (ownedCells[i][j]== "c")
+                cpu_score++;
+            else
+                ;
         }
 
+    }
 
+
+    var get_pontos = document.getElementById("pontos_player1");
+    get_pontos.innerHTML=player_score;
+    var get_pontos_CPU= document.getElementById("pontos_player_CPU1");
+    get_pontos_CPU.innerHTML=cpu_score;
+
+    if (v.length == (temp1) * (temp2)) {
         if (player_score > cpu_score) {
-            alert("We have a Winner! Your score: " + player_score + " Computer score: " + cpu_score);
+            alert("We have a Winner!");
             return;
         }
         else if (player_score < cpu_score) {
-            alert("You lost! Your score: " + player_score + " Computer score: " + cpu_score);
-            return;
+            alert("You lost!");
         }
         else {
-            alert("Draw! Your score: " + player_score + " Computer score: " + cpu_score);
+            alert("Draw!");
             return;
         }
     }

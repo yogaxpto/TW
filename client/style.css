@@ -22,11 +22,11 @@ body {
 }
 
 .filledCPU{
-    background: #285e8e;
+    background: #CD6090;
 }
 
 .filledP{
-    background: #9900FF;
+    background: #5D478B;
 }
 
 #wait{
@@ -38,11 +38,19 @@ body {
     display: none;
     text-align: center;
 }
-#pontos_player{
+.pontos_player{
     display: inline-block;
 }
 
-#pontos_player_CPU{
+#pontos_player1{
+    display: inline-block;
+}
+
+.pontos_player_CPU{
+    display: inline-block;
+}
+
+#pontos_player_CPU1{
     display: inline-block;
 }
 #restart{
@@ -126,22 +134,10 @@ section {
     background-color: #2b542c;
 }
 
-#ver_canvas_CPU{
-    width:	2mm;
-    height:	1.5cm;
-    background-color: #2a6496;
-}
-
 #hor_canvas{
     width:	1.5cm;
     height:	2mm;
     background-color: #2b542c;
-}
-
-#hor_canvas_CPU{
-    width:	1.5cm;
-    height:	2mm;
-    background-color: #2a6496;
 }
 
 #cir_canvas{
