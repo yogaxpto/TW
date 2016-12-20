@@ -64,7 +64,7 @@ function display_logout() {
 
     }
     else {
-        return;
+
     }
 }
 
@@ -75,9 +75,9 @@ function play() {
     else if (document.getElementById('intermediate').checked)
         difficulty = 'intermediate';
     else if (document.getElementById('advanced').checked)
-        difficulty = 'advanced'
+        difficulty = 'advanced';
     else
-        difficulty = 'expert'
+        difficulty = 'expert';
     level = difficulty;
     set_tab('game');
     getvalue();
@@ -90,9 +90,9 @@ function multiplayer_play() {
     else if (document.getElementById('intermediate').checked)
         difficulty = 'intermediate';
     else if (document.getElementById('advanced').checked)
-        difficulty = 'advanced'
+        difficulty = 'advanced';
     else
-        difficulty = 'expert'
+        difficulty = 'expert';
     level = difficulty;
     join();
 }
@@ -105,15 +105,15 @@ function getvalue() {
 
     if (document.getElementById('beginner').checked) {
         set_table(2, 3);
-        return;
+
     }
     else if (document.getElementById('intermediate').checked) {
         set_table(4, 5);
-        return;
+
     }
     else if (document.getElementById('advanced').checked) {
         set_table(6, 8);
-        return;
+
     }
     else
         set_table(9, 11);
@@ -130,6 +130,15 @@ function get_cords(position) {
 function set_table(nrow, ncell) {
 
     removertabela("tabl");
+
+    document.getElementById("pontos_player_CPU1").innerHTML="0";
+    document.getElementById("pontos_player1").innerHTML="0";
+
+    document.getElementById("restart_button").innerHTML = "Forfeit";
+    document.getElementById("restart_button").onclick = function () {
+        leave();
+    }
+
     table = new Array(nrow);
     ownedCells = new Array(nrow - 1);
 
@@ -145,12 +154,12 @@ function set_table(nrow, ncell) {
 
     for (var i = 0; i < nrow * 2 + 1; i++) {
         table[i] = new Array(ncell);
-        if(i%2==1)
-            ownedCells[Math.floor(i/2)] = new Array(ncell-1);
+        if (i % 2 == 1)
+            ownedCells[Math.floor(i / 2)] = new Array(ncell - 1);
         var row = document.createElement("tr");
         for (var j = 0; j < ncell * 2 + 1; j++) {
             var cell = document.createElement("td");
-            table[i][j]=1;
+            table[i][j] = 1;
             if (i % 2 == 0 && j % 2 == 0) { //criar os circulos
                 //cria o canvas
                 var circulo = document.createElement("canvas");
@@ -175,7 +184,7 @@ function set_table(nrow, ncell) {
                     hmove(this.id, "p");
                     // else
                     //   multiplayer_play();
-                } //horizontal
+                }; //horizontal
                 row.appendChild(cell);
             }
             else if (i % 2 == 1 && j % 2 == 0) {
@@ -187,7 +196,7 @@ function set_table(nrow, ncell) {
                     vmove(this.id, "p");
                     //else
                     //    multiplayer_play();
-                } //vertical;
+                }; //vertical;
                 row.appendChild(cell);
             }
             else {
@@ -416,7 +425,7 @@ function checkSquare(pos, user) {
         }
         else {
             a.className = "filledCPU";
-            ownedCells[Math.floor(row/2)][Math.floor(col/2)]="c";
+            ownedCells[Math.floor(row / 2)][Math.floor(col / 2)] = "c";
         }
         checkEndGame();
     }
@@ -424,25 +433,25 @@ function checkSquare(pos, user) {
 }
 
 function checkEndGame() {
-    var v = new Array();
+    var v = [];
 
-    for (var i=0;i<table.length;i++) {
-        for (var j=0;j<table[i].length;j++) {
-            if (i%2 == 1 && j%2 == 1) {
-                if (!table[i-1][j] && !table[i+1][j] && !table[i][j-1] && !table[i][j+1]) {
+    for (var i = 0; i < table.length; i++) {
+        for (var j = 0; j < table[i].length; j++) {
+            if (i % 2 == 1 && j % 2 == 1) {
+                if (!table[i - 1][j] && !table[i + 1][j] && !table[i][j - 1] && !table[i][j + 1]) {
                     v[v.length] = i + ',' + j;
                 }
             }
         }
     }
 
-    var player_score=0;
-    var cpu_score=0;
-    for (var i=0;i<ownedCells.length;i++) {
-        for (var j=0;j<ownedCells[i].length;j++) {
+    var player_score = 0;
+    var cpu_score = 0;
+    for (var i = 0; i < ownedCells.length; i++) {
+        for (var j = 0; j < ownedCells[i].length; j++) {
             if (ownedCells[i][j] == "p")
                 player_score++;
-            else if (ownedCells[i][j]== "c")
+            else if (ownedCells[i][j] == "c")
                 cpu_score++;
             else
                 ;
@@ -452,11 +461,17 @@ function checkEndGame() {
 
 
     var get_pontos = document.getElementById("pontos_player1");
-    get_pontos.innerHTML=player_score;
-    var get_pontos_CPU= document.getElementById("pontos_player_CPU1");
-    get_pontos_CPU.innerHTML=cpu_score;
+    get_pontos.innerHTML = player_score;
+    var get_pontos_CPU = document.getElementById("pontos_player_CPU1");
+    get_pontos_CPU.innerHTML = cpu_score;
 
     if (v.length == (temp1) * (temp2)) {
+
+        document.getElementById("restart_button").innerHTML = "New Game";
+        document.getElementById("restart_button").onclick = function () {
+            set_tab("mode");
+        }
+
         if (player_score > cpu_score) {
             alert("We have a Winner!");
             return;
@@ -496,6 +511,21 @@ function MultiGame(turn) {
 function gameover(winner) {
     alert("Player " + winner + " won!");
     highs();
+}
+
+function change_button() {
+    if (document.getElementById("restart_button").innerHTML == "Forfeit") {
+        document.getElementById("restart_button").innerHTML = "New Game";
+        document.getElementById("restart_button").onclick = function () {
+            set_tab("mode");
+        }
+    }
+    else {
+        document.getElementById("restart_button").innerHTML = "Forfeit";
+        document.getElementById("restart_button").onclick = function () {
+            leave();
+        }
+    }
 }
 //função da tabela highscores
 function tab_highscores() {
