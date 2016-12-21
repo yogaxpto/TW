@@ -153,7 +153,7 @@ function startGame(level, game_id, key1, key2, p1, p2) {
         }
     }
     //contagem das minas que rodeiam cada casa
-    for (var i = 0; i < game.boardHeight; i++) {
+    for (i = 0; i < game.boardHeight; i++) {
         for (var j = 0; j < game.boardWidth; j++) {
             if (game.board[i][j] != -1) {
                 game.board[i][j] = countNeighbours(game, j, i);
@@ -276,9 +276,9 @@ var mysql = require('mysql');
 var db_con = mysql.createConnection({
     host: 'localhost',
     user: 'up201008708',
-    password: 'up201008708',
+    password: 'up201008708'
 });
-// conecção e selecção da base de dados
+// colecção e selecção da base de dados
 db_con.connect(function (err) {
     if (err)
         console.log(err);
@@ -361,7 +361,7 @@ var Chance = require('chance');
 var chance = new Chance();
 // função de registo/login
 app.post('/register', function (request, response) {
-    // extração do nome e pass do corpo do request
+    // extracção do nome e pass do corpo do request
     var name = request.body.name;
     var pass = request.body.pass;
     //verifica se o nome obedece à regex
@@ -548,7 +548,7 @@ app.get('/update', function (request, response) {
     if (regex.test(name) && testKey(name, key, game_id)) {
         // impedir que a conecção se feche
         request.socket.setTimeout(6000000);
-        // cabecalho da resposta
+        // cabeçalho da resposta
         response.writeHead(200, {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
@@ -562,7 +562,7 @@ app.get('/update', function (request, response) {
         if (checkGameStart(game_id)) sendEvent(game_id, 'start');
 
 
-        // no caso do cliente terminar a conecção, remover da lista
+        // no caso do cliente terminar a conexão, remover da lista
         request.on("close", function () {
             for (var i = 0; i < openConnections.length; i++) {
                 if (openConnections[i].name == name)
