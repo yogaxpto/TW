@@ -359,13 +359,14 @@ function createHash(str) {
 // chamada ao módulo Chance para a geração dos salts
 var Chance = require('chance');
 var chance = new Chance();
+
 // função de registo/login
 app.post('/register', function (request, response) {
     // extracção do nome e pass do corpo do request
     var name = request.body.name;
     var pass = request.body.pass;
     //verifica se o nome obedece à regex
-    if (regex.test(name)) {
+    if (regex.test(name) && regex.test(pass)) {
         // query à base de dados
         // para descobrir se o utilizador já está registado
         var query = db_con.query('SELECT * FROM Users WHERE name = ?', [name], function (err, result) {
@@ -379,14 +380,12 @@ app.post('/register', function (request, response) {
                 // verificar se a password está correta
                 if (createHash(pass + user.salt) == user.pass) {
                     console.log("Correct Password");
-                    // resposta positiva
                     response.json({});
                 }
                 //password errada
                 else {
                     console.log("Incorrect Password");
-                    // resposta negativa
-                    response.json({"error": "Utilizador registado com senha diferente"});
+                    response.json({"error": "User registered with a different password"});
                 }
             }
             // utilizador nao existe
@@ -401,7 +400,6 @@ app.post('/register', function (request, response) {
                     if (err)
                         console.log(err);
                     console.log("Created new user");
-                    // resposta positiva
                     response.json({});
                 });
             }
@@ -411,6 +409,8 @@ app.post('/register', function (request, response) {
         response.json({"error": "Nome de utilizador inválido!"});
     }
 });
+
+
 // Ranking
 app.post('/ranking', function (request, response) {
     var level = request.body.level;
