@@ -106,9 +106,8 @@ function startGame(level, game_id, key1, key2, p1, p2) {
     var game =
         {
             level: level,
-            mines: 0,
+            squares: 0,
             board: [[]],
-            popped: [[]],
             boardWidth: 0,
             boardHeight: 0,
             player1: p1,
@@ -120,44 +119,31 @@ function startGame(level, game_id, key1, key2, p1, p2) {
             turn: p1
         };
     if (level === "beginner") {
-        minesLeft = 10;
-        game.mines = 10;
-        game.boardHeight = 9;
-        game.boardWidth = 9;
+        game.squares = 6;
+        game.boardHeight = 3;
+        game.boardWidth = 2;
     }
     else if (level === "intermediate") {
-        minesLeft = 40;
-        game.mines = 40;
-        game.boardWidth = 16;
-        game.boardHeight = 16;
+        game.squares = 20;
+        game.boardWidth = 5;
+        game.boardHeight = 3;
+    }
+
+    else if (level=="advanced"){
+        game.squares=46;
+        game.boardWidth=8;
+        game.boardHeight=6;
     }
     else if (level === "expert") {
-        minesLeft = 99;
-        game.mines = 99;
-        game.boardWidth = 30;
-        game.boardHeight = 16;
+        game.squares = 99;
+        game.boardWidth = 11;
+        game.boardHeight = 9;
     }
     game.board = new Array(game.boardHeight);
-    game.popped = new Array(game.boardHeight);
-    for (var i = 0; i < game.boardHeight; i++) {
-        game.board[i] = new Array(game.boardWidth);
-        game.popped[i] = new Array(game.boardWidth);
     }
-    while (minesLeft > 0) {
-        //escolhe duas coordenadas aleatórias
-        var x = Math.floor((Math.random() * game.boardWidth));
-        var y = Math.floor((Math.random() * game.boardHeight));
-        if (game.board[y][x] != -1) {
-            game.board[y][x] = -1;
-            minesLeft--;
-        }
-    }
-    //contagem das minas que rodeiam cada casa
+
     for (i = 0; i < game.boardHeight; i++) {
         for (var j = 0; j < game.boardWidth; j++) {
-            if (game.board[i][j] != -1) {
-                game.board[i][j] = countNeighbours(game, j, i);
-            }
             game.popped[i][j] = false; // inicializa todas as células da matriz popped
         }
     }
@@ -195,7 +181,7 @@ function clickPop(x, y, game_id) {
         else
             games[game_id].p2score++;
         // se o score for maior que metade das bombas no jogo, vitória
-        if (games[game_id].p1score >= (games[game_id].mines / 2)) {
+        if (games[game_id].p1score >= (games[game_id].squares / 2)) {
             sendEvent(game_id, 'end', {
                 'name': games[game_id].turn,
                 'cells': [[x + 1, y + 1, -1]],
@@ -204,7 +190,7 @@ function clickPop(x, y, game_id) {
             increaseScore(games[game_id].player1, games[game_id].level);
             decreaseScore(games[game_id].player2, games[game_id].level);
         }
-        else if (games[game_id].p2score >= (games[game_id].mines / 2)) {
+        else if (games[game_id].p2score >= (games[game_id].squares / 2)) {
             sendEvent(game_id, 'end', {
                 'name': games[game_id].turn,
                 'cells': [[x + 1, y + 1, -1]],
@@ -367,8 +353,6 @@ app.post('/register', function (request, response) {
     var pass = request.body.pass;
     //verifica se o nome obedece à regex
     if (regex.test(name) && regex.test(pass)) {
-        // query à base de dados
-        // para descobrir se o utilizador já está registado
         var query = db_con.query('SELECT * FROM Users WHERE name = ?', [name], function (err, result) {
             if (err)
                 console.log(err);
@@ -420,6 +404,7 @@ app.post('/ranking', function (request, response) {
         response.json({"ranking": result});
     });
 });
+
 //retorna o 1º oponente válido para p1 se existir se não retorna undefined e adiciona p1 à lista
 function findOpponent(p1) {
     var p2;
@@ -510,10 +495,11 @@ app.post('/notify', function (request, response) {
     var row = request.body.row;
     var col = request.body.col;
     var game_id = request.body.game;
+    var orientation = request.body.orient;
     var name = request.body.name;
     var key = request.body.key;
     var cells = [];
-    console.log(name, " plays in [", row, ",", col, "]");
+    console.log(name, " plays in [" ,orient , row, ",", col, "]");
     //verifica a validade do nome e da chave
     if (regex.test(name) && testKey(name, key, game_id)) {
         //verifica se a jogada é válida (turno)
