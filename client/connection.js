@@ -1,5 +1,5 @@
 /**
- * Created by Diogo on 28/11/2016.
+ * Created by Diogo and Ana on 28/11/2016.
  *
  * see
  * http://www.dcc.fc.up.pt/~rprior/1617/TW/trabalho/Trabalho-2.html
