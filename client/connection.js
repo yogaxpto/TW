@@ -93,6 +93,7 @@ function update() {
         if (json.opponent) {
             gameinprogress = 1;
             set_tab('game');
+            getvalue();
             opponent = json.opponent;
             turn = json.turn;
 

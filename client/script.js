@@ -131,8 +131,8 @@ function set_table(nrow, ncell) {
 
     removertabela("tabl");
 
-    document.getElementById("pontos_player_CPU1").innerHTML="0";
-    document.getElementById("pontos_player1").innerHTML="0";
+    document.getElementById("pontos_player_CPU1").innerHTML = "0";
+    document.getElementById("pontos_player1").innerHTML = "0";
 
     document.getElementById("restart_button").innerHTML = "Forfeit";
     document.getElementById("restart_button").onclick = function () {
@@ -179,11 +179,11 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("class", "hor");
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
-                    //get_cords(this.id);
-                    // if (gameinprogress == 0)
-                    hmove(this.id, "p");
-                    // else
-                    //   multiplayer_play();
+                    get_cords(this.id);
+                    if (gameinprogress == 0)
+                        hmove(this.id, "p");
+                    else
+                        multiplayer_play();
                 }; //horizontal
                 row.appendChild(cell);
             }
@@ -191,11 +191,11 @@ function set_table(nrow, ncell) {
                 cell.setAttribute("class", "ver");
                 cell.setAttribute("id", i + "," + j);
                 cell.onclick = function () {
-                    //  get_cords(this.id);
-                    //    if (gameinprogress == 0)
-                    vmove(this.id, "p");
-                    //else
-                    //    multiplayer_play();
+                    get_cords(this.id);
+                    if (gameinprogress == 0)
+                        vmove(this.id, "p");
+                    else
+                        multiplayer_play();
                 }; //vertical;
                 row.appendChild(cell);
             }
