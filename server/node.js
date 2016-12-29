@@ -148,26 +148,6 @@ function startGame(level, game_id, key1, key2, p1, p2) {
     games[game_id] = game;
 }
 
-function countNeighbours(game, x, y) {
-    var count = 0;
-    var strt_i = y, strt_j = x, lm_i = y, lm_j = x;
-    //verifica os limites da tabela
-    if (x - 1 >= 0)
-        strt_j = x - 1;
-    if (x + 1 < game.boardWidth)
-        lm_j = x + 1;
-    if (y - 1 >= 0)
-        strt_i = y - 1;
-    if (y + 1 < game.boardHeight)
-        lm_i = y + 1;
-    for (var i = strt_i; i <= lm_i; i++) {
-        for (var j = strt_j; j <= lm_j; j++) {
-            if (game.board[i][j] === -1)
-                count++;
-        }
-    }
-    return count;
-}
 // casas reveladas na última jogada
 var move = [];
 function clickPop(x, y, game_id) {
