@@ -102,7 +102,6 @@ function checkGameStart(game_id) {
 
 // método para espalhar minas no início de um jogo
 function startGame(level, game_id, key1, key2, p1, p2) {
-    var minesLeft;
     var game =
         {
             level: level,
@@ -118,6 +117,7 @@ function startGame(level, game_id, key1, key2, p1, p2) {
             p2score: 0,
             turn: p1
         };
+
     if (level === "beginner") {
         game.squares = 6;
         game.boardHeight = 3;
@@ -129,10 +129,10 @@ function startGame(level, game_id, key1, key2, p1, p2) {
         game.boardHeight = 3;
     }
 
-    else if (level=="advanced"){
-        game.squares=46;
-        game.boardWidth=8;
-        game.boardHeight=6;
+    else if (level == "advanced") {
+        game.squares = 46;
+        game.boardWidth = 8;
+        game.boardHeight = 6;
     }
     else if (level === "expert") {
         game.squares = 99;
@@ -140,15 +140,14 @@ function startGame(level, game_id, key1, key2, p1, p2) {
         game.boardHeight = 9;
     }
     game.board = new Array(game.boardHeight);
+
+    for (var i =0 ; i< game.boardHeight; i++){
+        game.board[i]= new Array(game.boardWidth);
     }
 
-    for (i = 0; i < game.boardHeight; i++) {
-        for (var j = 0; j < game.boardWidth; j++) {
-            game.popped[i][j] = false; // inicializa todas as células da matriz popped
-        }
-    }
     games[game_id] = game;
 }
+
 function countNeighbours(game, x, y) {
     var count = 0;
     var strt_i = y, strt_j = x, lm_i = y, lm_j = x;
@@ -499,7 +498,7 @@ app.post('/notify', function (request, response) {
     var name = request.body.name;
     var key = request.body.key;
     var cells = [];
-    console.log(name, " plays in [" ,orient , row, ",", col, "]");
+    console.log(name, " plays in [", orient, row, ",", col, "]");
     //verifica a validade do nome e da chave
     if (regex.test(name) && testKey(name, key, game_id)) {
         //verifica se a jogada é válida (turno)
