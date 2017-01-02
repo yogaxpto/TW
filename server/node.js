@@ -324,15 +324,37 @@ function findOpponent(p1) {
 }
 
 function try_move(game, orientation, row, col) {
+    var moved = false;
     switch (orientation) {
         case "h":
-            if (game.board[2*(row-1)][col]==undefined)
-                game.board[2*(row-1)][col]==game.turn;
-                break;
+            if (game.board[2 * (row - 1)][col] == undefined)
+                game.board[2 * (row - 1)][col] == game.turn;
+            moved = true;
+            break;
         case "v":
-            if (game.board[row][2*(col)-1]==undefined)
-                 game.board[row][2*(col)-1]=game.turn;
-                break;
+            if (game.board[row][2 * (col) - 1] == undefined)
+                game.board[row][2 * (col) - 1] = game.turn;
+            moved = true;
+            break;
+    }
+    if (moved) {
+        app.post(function (request, response) {
+            var player_name = game.turn.name;
+            if (game.turn.name == game.player1.name)
+                game.turn = game.player2;
+            else
+                game.turn = game.player1;
+            response.json({
+                "move": {
+                    "name": player_name,
+                    "orient": orientation,
+                    "row": row,
+                    "col": col,
+                    "boxes": "c",
+                    "time": timestamp
+                }, "turn": game.turn.name
+            });
+        });
     }
 }
 
@@ -428,7 +450,7 @@ app.post('/notify', function (request, response) {
         if (name === games[game_id].turn) {
             //verifica os limites da tabela
             if (try_move(games[game_id], orientation, row, col)) {
-            response.json({})
+                response.json({})
             }
             else {
                 response.json({"error": "Edge already drawn"});
@@ -438,8 +460,7 @@ app.post('/notify', function (request, response) {
             response.json({"error": "Jogada inválida!"});
         }
     }
-    else
-    {
+    else {
         response.json({"error": "Erro! Não foi possivel validar a jogada"});
     }
 });
