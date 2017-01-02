@@ -141,8 +141,8 @@ function startGame(level, game_id, key1, key2, p1, p2) {
     }
     game.board = new Array(game.boardHeight);
 
-    for (var i =0 ; i< game.boardHeight; i++){
-        game.board[i]= new Array(game.boardWidth);
+    for (var i = 0; i < game.boardHeight; i++) {
+        game.board[i] = new Array(game.boardWidth);
     }
 
     games[game_id] = game;
@@ -396,6 +396,18 @@ function findOpponent(p1) {
     }
     return p2;
 }
+
+function try_move(game, orientation, row, col) {
+    switch (orientation) {
+        case "h":
+            if (game.board[row][col])
+                break;
+        case "v":
+            if (game.board[row][col])
+                break;
+    }
+}
+
 app.post('/join', function (request, response) {
     if (regex.test(request.body.name)) {
         var query = db_con.query('SELECT * FROM Users WHERE name = ?', [request.body.name], function (err, result) {
@@ -436,9 +448,10 @@ app.post('/join', function (request, response) {
         });
     }
     else {
-        response.json({"error": "Jogada inválida!"});
+        response.json({"error": "Invalid player"});
     }
 });
+
 app.post('/leave', function (request, response) {
     var name = request.body.name;
     var key = request.body.key;
@@ -455,7 +468,8 @@ app.post('/leave', function (request, response) {
         response.json({});
     }
 });
-app.post('/score', function (request, response) {
+
+app.post('/ranking', function (request, response) {
     if (regex.test(request.body.name)) {
         var query = db_con.query('SELECT * FROM Rankings WHERE name = ? && level = ?', [request.body.name, request.body.level], function (err, result) {
             if (err)
@@ -470,6 +484,7 @@ app.post('/score', function (request, response) {
         response.json({"error": "Nome de utilizador inválido!"});
     }
 });
+
 app.post('/notify', function (request, response) {
     var row = request.body.row;
     var col = request.body.col;
@@ -484,28 +499,31 @@ app.post('/notify', function (request, response) {
         //verifica se a jogada é válida (turno)
         if (name === games[game_id].turn) {
             //verifica os limites da tabela
-            if ((row > 0 && row <= games[game_id].boardHeight) && (col > 0 && col <= games[game_id].boardWidth)) {
-                //célula já destapada
-                if (!games[game_id].popped[col - 1][row - 1]) {
-                    console.log("Accepted.");
-                    response.json({});//jogada aceite
-                    // rebenta casa(s)
-                    clickPop(row - 1, col - 1, game_id);
-                }
-                else {
-                    response.json({"error": "Posição " + row + "," + col + " já destapada"});
-                }
+            if (try_move(games[game_id], orientation, row, col)) {
             }
+            /*if ((row > 0 && row <= games[game_id].boardHeight) && (col > 0 && col <= games[game_id].boardWidth)) {
+             //célula já destapada
+             if (!games[game_id].popped[col - 1][row - 1]) {
+             console.log("Accepted.");
+             response.json({});//jogada aceite
+             // rebenta casa(s)
+             clickPop(row - 1, col - 1, game_id);
+             }*/
             else {
-                response.json({"error": "Jogada inválida!"});
+                response.json({"error": "Posição " + row + "," + col + " já destapada"});
             }
         }
-        else
-            response.json({"error": "Não é o seu turno!"});
+        else {
+            response.json({"error": "Jogada inválida!"});
+        }
     }
     else
+    {
         response.json({"error": "Erro! Não foi possivel validar a jogada"});
+    }
 });
+
+
 app.get('/update', function (request, response) {
     var name = request.query.name;
     var game_id = request.query.game;
