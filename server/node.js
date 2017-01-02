@@ -150,82 +150,8 @@ function startGame(level, game_id, key1, key2, p1, p2) {
 
 // casas reveladas na última jogada
 var move = [];
-function clickPop(x, y, game_id) {
-    // se a jogada for uma mina
-    if (games[game_id].board[y][x] === -1) {
-        games[game_id].popped[y][x] = true;
-        // adicionar ao score do jogador
-        if (games[game_id].player1 == games[game_id].turn)
-            games[game_id].p1score++;
-        else
-            games[game_id].p2score++;
-        // se o score for maior que metade das bombas no jogo, vitória
-        if (games[game_id].p1score >= (games[game_id].squares / 2)) {
-            sendEvent(game_id, 'end', {
-                'name': games[game_id].turn,
-                'cells': [[x + 1, y + 1, -1]],
-                'winner': games[game_id].player1
-            });
-            increaseScore(games[game_id].player1, games[game_id].level);
-            decreaseScore(games[game_id].player2, games[game_id].level);
-        }
-        else if (games[game_id].p2score >= (games[game_id].squares / 2)) {
-            sendEvent(game_id, 'end', {
-                'name': games[game_id].turn,
-                'cells': [[x + 1, y + 1, -1]],
-                'winner': games[game_id].player2
-            });
-            increaseScore(games[game_id].player2, games[game_id].level);
-            decreaseScore(games[game_id].player1, games[game_id].level);
-        }
-        else
-            sendEvent(game_id, 'move', {
-                'name': games[game_id].turn,
-                'cells': [[x + 1, y + 1, -1]],
-                'turn': games[game_id].turn
-            });
 
-    }
-    // se for uma jogada normal
-    else {
-        // limpar as celulas da jogada anterior
-        move = [];
-        // função recursiva
-        expandPop(x, y, game_id);
-        var p = games[game_id].turn;
-        // determinar o próximo turno
-        if (games[game_id].turn === games[game_id].player1)
-            games[game_id].turn = games[game_id].player2;
-        else
-            games[game_id].turn = games[game_id].player1;
-        // enviar jogada aos jogadores
-        sendEvent(game_id, 'move', {'name': p, 'cells': move, 'turn': games[game_id].turn});
-    }
-}
-function expandPop(x, y, game_id) {
-    games[game_id].popped[y][x] = true;
-    // adicionar casa às destapadas nesta jogada
-    move.push([x + 1, y + 1, games[game_id].board[y][x]]);
-    var strt_i = y, strt_j = x, lm_i = y, lm_j = x;
-    //verifica os limites da tabela
-    if (x - 1 >= 0)
-        strt_j = x - 1;
-    if (x + 1 < games[game_id].boardWidth)
-        lm_j = x + 1;
-    if (y - 1 >= 0)
-        strt_i = y - 1;
-    if (y + 1 < games[game_id].boardHeight)
-        lm_i = y + 1;
-    if (games[game_id].board[y][x] === 0) {
-        for (var i = strt_i; i <= lm_i; i++) {
-            for (var j = strt_j; j <= lm_j; j++) {
-                if (!games[game_id].popped[i][j]) {
-                    expandPop(j, i, game_id);
-                }
-            }
-        }
-    }
-}
+
 // chamada ao módulo Express, para simplificar alguns passos
 var express = require('express');
 var cors = require('cors');
@@ -261,7 +187,7 @@ function increaseScore(name, level) {
 
 
         if (result.length > 0) {
-            var query = db_con.query('UPDATE Rankings SET score = score + 1 WHERE name = ? && level = ?', [name, level], function (err, result) {
+            var query = db_con.query('UPDATE Rankings SET boxes = boxes + 1 WHERE name = ? && level = ?', [name, level], function (err, result) {
                 if (err)
                     console.log(err);
 
@@ -292,7 +218,7 @@ function decreaseScore(name, level) {
 
         if (result.length > 0) {
             if (result[0].score > 0) {
-                var query = db_con.query('UPDATE Rankings SET score = score - 1 WHERE name = ? && level = ?', [name, level], function (err, result) {
+                var query = db_con.query('UPDATE Rankings SET boxes = boxes - 1 WHERE name = ? && level = ?', [name, level], function (err, result) {
                     if (err)
                         console.log(err);
 
@@ -377,7 +303,7 @@ app.post('/register', function (request, response) {
 // Ranking
 app.post('/ranking', function (request, response) {
     var level = request.body.level;
-    var query = db_con.query('SELECT * FROM Rankings WHERE level = ? ORDER BY score DESC, timestamp ASC LIMIT 10;', [level], function (err, result) {
+    var query = db_con.query('SELECT * FROM Rankings WHERE level = ? ORDER BY boxes DESC, timestamp ASC LIMIT 10;', [level], function (err, result) {
         if (err)
             console.log(err);
         response.json({"ranking": result});
@@ -400,10 +326,10 @@ function findOpponent(p1) {
 function try_move(game, orientation, row, col) {
     switch (orientation) {
         case "h":
-            if (game.board[row][col])
+            if (game.board[2*(row-1)][col])
                 break;
         case "v":
-            if (game.board[row][col])
+            if (game.board[row][2*(col)-1])
                 break;
     }
 }
@@ -500,17 +426,10 @@ app.post('/notify', function (request, response) {
         if (name === games[game_id].turn) {
             //verifica os limites da tabela
             if (try_move(games[game_id], orientation, row, col)) {
+            response.json({})
             }
-            /*if ((row > 0 && row <= games[game_id].boardHeight) && (col > 0 && col <= games[game_id].boardWidth)) {
-             //célula já destapada
-             if (!games[game_id].popped[col - 1][row - 1]) {
-             console.log("Accepted.");
-             response.json({});//jogada aceite
-             // rebenta casa(s)
-             clickPop(row - 1, col - 1, game_id);
-             }*/
             else {
-                response.json({"error": "Posição " + row + "," + col + " já destapada"});
+                response.json({"error": "Edge already drawn"});
             }
         }
         else {
