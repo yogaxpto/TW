@@ -326,10 +326,12 @@ function findOpponent(p1) {
 function try_move(game, orientation, row, col) {
     switch (orientation) {
         case "h":
-            if (game.board[2*(row-1)][col])
+            if (game.board[2*(row-1)][col]==undefined)
+                game.board[2*(row-1)][col]==game.turn;
                 break;
         case "v":
-            if (game.board[row][2*(col)-1])
+            if (game.board[row][2*(col)-1]==undefined)
+                 game.board[row][2*(col)-1]=game.turn;
                 break;
     }
 }
@@ -401,9 +403,9 @@ app.post('/ranking', function (request, response) {
             if (err)
                 console.log(err);
             if (result.length > 0)
-                response.json({"score": result[0].score});
+                response.json({"boxes": result[0].score});
             else
-                response.json({"score": 0});
+                response.json({"boxes": 0});
         });
     }
     else {
